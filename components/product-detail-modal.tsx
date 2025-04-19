@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { X } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import type { useProductStore } from "@/lib/store"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import type { ProductWithCategories } from "@/lib/database.types";
 
 interface ProductDetailModalProps {
-  isOpen: boolean
-  onClose: () => void
-  product: ReturnType<typeof useProductStore>["selectedProduct"]
+  isOpen: boolean;
+  onClose: () => void;
+  product: ProductWithCategories | null;
 }
 
 const backdropVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.3 } },
   exit: { opacity: 0, transition: { duration: 0.3 } },
-}
+};
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.95, y: 20 },
@@ -38,39 +38,43 @@ const modalVariants = {
       ease: "easeIn",
     },
   },
-}
+};
 
-const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProps) => {
-  const [mounted, setMounted] = useState(false)
+const ProductDetailModal = ({
+  isOpen,
+  onClose,
+  product,
+}: ProductDetailModalProps) => {
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
+    setMounted(true);
 
     if (isOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
 
       // Add event listener for Esc key
       const handleEscKey = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
-          onClose()
+          onClose();
         }
-      }
+      };
 
-      window.addEventListener("keydown", handleEscKey)
+      window.addEventListener("keydown", handleEscKey);
 
       return () => {
-        document.body.style.overflow = "auto"
-        window.removeEventListener("keydown", handleEscKey)
-      }
+        document.body.style.overflow = "auto";
+        window.removeEventListener("keydown", handleEscKey);
+      };
     }
 
     return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [isOpen, onClose])
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen, onClose]);
 
-  if (!mounted) return null
-  if (!product) return null
+  if (!mounted) return null;
+  if (!product) return null;
 
   return (
     <AnimatePresence>
@@ -120,7 +124,12 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                     </p>
                   </div>
 
-                  <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: product.detailHtml }} />
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{
+                      __html: product.description || "",
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -128,7 +137,6 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
         </motion.div>
       )}
     </AnimatePresence>
-  )
-}
-
-export default ProductDetailModal
+  );
+};
+export default ProductDetailModal;

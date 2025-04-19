@@ -7,7 +7,8 @@ import { ArrowLeft } from "lucide-react";
 import PageTitle from "@/components/page-title";
 import ScrollReveal from "@/components/scroll-reveal";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useProductStore } from "@/lib/store";
+import { useProductStore } from "@/lib/product-store";
+import { Button } from "@/components/ui/button";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -25,12 +26,7 @@ export default function ProductDetail() {
           router.push("/products");
           return;
         }
-        const product = await fetchProductById(productId);
-        // console.log(product);
-        if (!product) {
-          router.push("/products");
-          return;
-        }
+        await fetchProductById(productId);
       } catch (error) {
         console.error("Error fetching product:", error);
         router.push("/products");
@@ -55,13 +51,14 @@ export default function ProductDetail() {
       />
 
       <div className="container mx-auto px-4 py-12">
-        <button
+        <Button
+          variant="ghost"
           onClick={goBack}
           className="flex items-center text-gray-600 hover:text-primary mb-8 transition-colors"
         >
           <ArrowLeft size={20} className="mr-2" />
           Back to Products
-        </button>
+        </Button>
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -73,45 +70,45 @@ export default function ProductDetail() {
               <Skeleton className="h-32 w-full" />
             </div>
           </div>
+        ) : selectedProduct ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <ScrollReveal>
+              <div className="relative aspect-square">
+                <Image
+                  src={selectedProduct.image || "/placeholder.svg"}
+                  alt={selectedProduct.name}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <div>
+                <h1 className="text-3xl font-bold mb-2">
+                  {selectedProduct.name}
+                </h1>
+                <p className="text-2xl font-bold text-primary mb-6 price-text">
+                  {selectedProduct.price?.toLocaleString("vi-VN")}đ
+                </p>
+
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedProduct.description || "",
+                  }}
+                />
+
+                <div className="mt-8">
+                  <Button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors">
+                    Add to Cart
+                  </Button>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
         ) : (
-          selectedProduct && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <ScrollReveal>
-                <div className="relative aspect-square">
-                  <Image
-                    src={selectedProduct.image || "/placeholder.svg"}
-                    alt={selectedProduct.name}
-                    fill
-                    className="object-cover rounded-lg"
-                  />
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal>
-                <div>
-                  <h1 className="text-3xl font-bold mb-2">
-                    {selectedProduct.name}
-                  </h1>
-                  <p className="text-2xl font-bold text-primary mb-6 price-text">
-                    {selectedProduct.price?.toLocaleString("vi-VN")}đ
-                  </p>
-
-                  <div
-                    className="prose max-w-none"
-                    dangerouslySetInnerHTML={{
-                      __html: selectedProduct.description || "",
-                    }}
-                  />
-
-                  <div className="mt-8">
-                    <button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors">
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              </ScrollReveal>
-            </div>
-          )
+          <div className="text-center text-gray-500">Product not found</div>
         )}
       </div>
     </div>
