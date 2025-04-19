@@ -1,161 +1,184 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-import { useProductStore } from "@/lib/product-store"
-import { useToastStore } from "@/lib/toast-store"
-import CKEditor from "@/components/ckeditor"
-import { X } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useProductStore } from "@/lib/product-store";
+import { useToastStore } from "@/lib/toast-store";
+import CKEditor from "@/components/ckeditor";
+import { X } from "lucide-react";
 
 interface ProductFormProps {
-  productId?: number
+  productId?: number;
 }
 
 export default function ProductForm({ productId }: ProductFormProps) {
-  const router = useRouter()
-  const { categories, fetchCategories, createProduct, updateProduct, products } = useProductStore()
-  const { addToast } = useToastStore()
+  const router = useRouter();
+  const {
+    categories,
+    fetchCategories,
+    createProduct,
+    updateProduct,
+    products,
+  } = useProductStore();
+  const { addToast } = useToastStore();
 
   // Find the product if editing
-  const existingProduct = productId ? products.find((p) => p.id === productId) : null
+  const existingProduct = productId
+    ? products.find((p) => p.id === productId)
+    : null;
 
   // Form state
-  const [name, setName] = useState(existingProduct?.name || "")
-  const [subtitle, setSubtitle] = useState(existingProduct?.subtitle || "")
-  const [description, setDescription] = useState(existingProduct?.description || "")
-  const [price, setPrice] = useState(existingProduct?.price?.toString() || "")
-  const [discountPrice, setDiscountPrice] = useState(existingProduct?.discount_price?.toString() || "")
-  const [status, setStatus] = useState<"public" | "draft">(existingProduct?.status || "draft")
+  const [name, setName] = useState(existingProduct?.name || "");
+  const [subtitle, setSubtitle] = useState(existingProduct?.subtitle || "");
+  const [description, setDescription] = useState(
+    existingProduct?.description || ""
+  );
+  const [price, setPrice] = useState(existingProduct?.price?.toString() || "");
+  const [discountPrice, setDiscountPrice] = useState(
+    existingProduct?.discount_price?.toString() || ""
+  );
+  const [status, setStatus] = useState<"public" | "draft">(
+    existingProduct?.status || "draft"
+  );
   const [selectedCategories, setSelectedCategories] = useState<number[]>(
-    existingProduct?.categories?.map((c) => c.id) || [],
-  )
+    existingProduct?.categories?.map((c) => c.id) || []
+  );
 
   // Image handling
-  const [imageFile, setImageFile] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string>(existingProduct?.image || "")
-  const [isUploading, setIsUploading] = useState(false)
-  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>(
+    existingProduct?.image || ""
+  );
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Loading state
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [formError, setFormError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchCategories()
-  }, [fetchCategories])
+    fetchCategories();
+  }, [fetchCategories]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
+    const file = e.target.files?.[0];
+    if (!file) return;
 
     // Validate file type
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      setUploadError("Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.")
+      setUploadError(
+        "Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed."
+      );
       addToast({
         type: "error",
-        message: "Loại file không hợp lệ. Chỉ chấp nhận JPEG, PNG, GIF, và WebP.",
-      })
-      return
+        message:
+          "Loại file không hợp lệ. Chỉ chấp nhận JPEG, PNG, GIF, và WebP.",
+      });
+      return;
     }
 
     // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024 // 5MB
+    const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
-      setUploadError("File too large. Maximum size is 5MB.")
+      setUploadError("File too large. Maximum size is 5MB.");
       addToast({
         type: "error",
         message: "File quá lớn. Kích thước tối đa là 5MB.",
-      })
-      return
+      });
+      return;
     }
 
-    setImageFile(file)
-    setUploadError(null)
+    setImageFile(file);
+    setUploadError(null);
 
     // Create a preview
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onloadend = () => {
-      setImagePreview(reader.result as string)
-    }
-    reader.readAsDataURL(file)
-  }
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleRemoveImage = () => {
-    setImageFile(null)
-    setImagePreview(existingProduct?.image || "")
-  }
+    setImageFile(null);
+    setImagePreview(existingProduct?.image || "");
+  };
 
   const uploadImage = async (): Promise<string | null> => {
-    if (!imageFile && !existingProduct?.image) return null
-    if (!imageFile && existingProduct?.image) return existingProduct.image
+    if (!imageFile && !existingProduct?.image) return null;
+    if (!imageFile && existingProduct?.image) return existingProduct.image;
 
-    setIsUploading(true)
+    setIsUploading(true);
     addToast({
       type: "info",
       message: "Đang tải lên hình ảnh...",
-    })
+    });
 
     try {
-      const formData = new FormData()
-      formData.append("image", imageFile as File)
+      const formData = new FormData();
+      formData.append("image", imageFile as File);
 
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.message || "Failed to upload image")
+        throw new Error(data.message || "Failed to upload image");
       }
 
       addToast({
         type: "success",
         message: "Hình ảnh đã được tải lên thành công",
-      })
+      });
 
-      return data.data.url
+      return data.data.url;
     } catch (error) {
-      console.error("Error uploading image:", error)
-      const errorMessage = error instanceof Error ? error.message : "Failed to upload image"
-      setUploadError(errorMessage)
+      console.error("Error uploading image:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to upload image";
+      setUploadError(errorMessage);
       addToast({
         type: "error",
         message: `Lỗi khi tải lên hình ảnh: ${errorMessage}`,
-      })
-      return null
+      });
+      return null;
     } finally {
-      setIsUploading(false)
+      setIsUploading(false);
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setFormError(null)
-    setIsSubmitting(true)
+    setFormError(null);
+    setIsSubmitting(true);
 
     try {
       // Validate form
       if (!name.trim()) {
-        throw new Error("Product name is required")
+        throw new Error("Product name is required");
       }
 
       if (!price || isNaN(Number(price)) || Number(price) <= 0) {
-        throw new Error("Valid price is required")
+        throw new Error("Valid price is required");
       }
 
-      if (discountPrice && (isNaN(Number(discountPrice)) || Number(discountPrice) <= 0)) {
-        throw new Error("Discount price must be a valid number")
+      if (
+        discountPrice &&
+        (isNaN(Number(discountPrice)) || Number(discountPrice) <= 0)
+      ) {
+        throw new Error("Discount price must be a valid number");
       }
 
       // Upload image if needed
-      const imageUrl = await uploadImage()
+      const imageUrl = await uploadImage();
 
       const productData = {
         name,
@@ -165,45 +188,55 @@ export default function ProductForm({ productId }: ProductFormProps) {
         discount_price: discountPrice ? Number(discountPrice) : null,
         status,
         image: imageUrl,
-      }
+      };
 
       if (productId) {
         // Update existing product
-        await updateProduct(productId, productData, selectedCategories)
+        await updateProduct(productId, productData, selectedCategories);
       } else {
         // Create new product
-        await createProduct(productData, selectedCategories)
+        await createProduct(productData, selectedCategories);
       }
 
       // Redirect back to products list
-      router.push("/admin/products")
+      router.push("/admin/products");
     } catch (error) {
-      console.error("Error saving product:", error)
-      const errorMessage = error instanceof Error ? error.message : "Failed to save product"
-      setFormError(errorMessage)
+      console.error("Error saving product:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to save product";
+      setFormError(errorMessage);
       addToast({
         type: "error",
         message: `Lỗi khi lưu sản phẩm: ${errorMessage}`,
-      })
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleCategoryToggle = (categoryId: number) => {
     setSelectedCategories((prev) =>
-      prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId],
-    )
-  }
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {formError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">{formError}</div>}
+      {formError && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          {formError}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Product Name *
             </label>
             <input
@@ -217,7 +250,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
           </div>
 
           <div>
-            <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="subtitle"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Subtitle
             </label>
             <input
@@ -231,7 +267,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="price"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Price (VND) *
               </label>
               <input
@@ -246,7 +285,10 @@ export default function ProductForm({ productId }: ProductFormProps) {
             </div>
 
             <div>
-              <label htmlFor="discountPrice" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="discountPrice"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Discount Price (VND)
               </label>
               <input
@@ -261,7 +303,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Status
+            </label>
             <div className="flex space-x-4">
               <label className="inline-flex items-center">
                 <input
@@ -287,7 +331,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Categories</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Categories
+            </label>
             <div className="border border-gray-300 rounded-md p-3 max-h-60 overflow-y-auto">
               {categories.length === 0 ? (
                 <p className="text-gray-500 text-sm">No categories available</p>
@@ -312,7 +358,9 @@ export default function ProductForm({ productId }: ProductFormProps) {
 
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Product Image
+            </label>
             <div className="border border-gray-300 rounded-md p-4">
               {imagePreview ? (
                 <div className="relative">
@@ -348,16 +396,25 @@ export default function ProductForm({ productId }: ProductFormProps) {
                     className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-white hover:file:bg-primary/90"
                   />
                 </label>
-                {uploadError && <p className="mt-1 text-sm text-red-600">{uploadError}</p>}
+                {uploadError && (
+                  <p className="mt-1 text-sm text-red-600">{uploadError}</p>
+                )}
               </div>
             </div>
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Description
             </label>
-            <CKEditor value={description} onChange={setDescription} placeholder="Enter product description..." />
+            <CKEditor
+              value={description}
+              onChange={setDescription}
+              placeholder="Enter product description..."
+            />
           </div>
         </div>
       </div>
@@ -378,8 +435,20 @@ export default function ProductForm({ productId }: ProductFormProps) {
           {isSubmitting || isUploading ? (
             <>
               <span className="animate-spin mr-2">
-                <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <svg
+                  className="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
                   <path
                     className="opacity-75"
                     fill="currentColor"
@@ -395,5 +464,5 @@ export default function ProductForm({ productId }: ProductFormProps) {
         </button>
       </div>
     </form>
-  )
+  );
 }

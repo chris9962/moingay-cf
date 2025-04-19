@@ -80,7 +80,9 @@ export default function Products() {
             <Button
               variant={!filters.categoryIds?.[0] ? "default" : "outline"}
               onClick={() => handleCategoryChange(null)}
-              className="whitespace-nowrap"
+              className={`whitespace-nowrap ${
+                !filters.categoryIds?.[0] ? "text-white" : ""
+              }`}
             >
               All Products
             </Button>
@@ -93,7 +95,9 @@ export default function Products() {
                     : "outline"
                 }
                 onClick={() => handleCategoryChange(category.id)}
-                className="whitespace-nowrap"
+                className={`whitespace-nowrap ${
+                  filters.categoryIds?.[0] === category.id ? "text-white" : ""
+                }`}
               >
                 {category.name}
               </Button>
@@ -157,9 +161,7 @@ export default function Products() {
                           {product.name}
                         </h3>
                       </Link>
-                      <p className="text-gray-600 mb-2">
-                        {product.description}
-                      </p>
+                      <p className="text-gray-600 mb-2">{product.subtitle}</p>
                       <p className="text-primary font-bold price-text">
                         {product.price.toLocaleString("vi-VN")}đ
                       </p>

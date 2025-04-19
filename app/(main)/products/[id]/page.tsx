@@ -39,7 +39,7 @@ export default function ProductDetail() {
   }, [params.id, router, fetchProductById]);
 
   const goBack = () => {
-    router.back();
+    router.push("/products");
   };
 
   return (
@@ -92,18 +92,12 @@ export default function ProductDetail() {
                   {selectedProduct.price?.toLocaleString("vi-VN")}đ
                 </p>
 
-                <div
-                  className="prose max-w-none"
+                <pre
+                  className="prose max-w-none whitespace-pre-wrap"
                   dangerouslySetInnerHTML={{
                     __html: selectedProduct.description || "",
                   }}
                 />
-
-                <div className="mt-8">
-                  <Button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors">
-                    Add to Cart
-                  </Button>
-                </div>
               </div>
             </ScrollReveal>
           </div>
