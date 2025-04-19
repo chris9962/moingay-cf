@@ -1,41 +1,31 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { supabase } from "@/lib/supabase"
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function AdminDashboard() {
-  const [productCount, setProductCount] = useState(0)
-  const [categoryCount, setCategoryCount] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [productCount, setProductCount] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        // Get product count directly from the products table without relationships
-        const { count: productCount, error: productError } = await supabase
-          .from("products")
-          .select("*", { count: "exact", head: true })
+        const response = await fetch("/api/admin/counts");
+        if (!response.ok) throw new Error("Failed to fetch counts");
 
-        if (productError) throw productError
-        setProductCount(productCount || 0)
-
-        // Get category count
-        const { count: categoryCount, error: categoryError } = await supabase
-          .from("categories")
-          .select("*", { count: "exact", head: true })
-
-        if (categoryError) throw categoryError
-        setCategoryCount(categoryCount || 0)
+        const { data } = await response.json();
+        setProductCount(data.productCount);
+        setCategoryCount(data.categoryCount);
       } catch (error) {
-        console.error("Error fetching counts:", error)
+        console.error("Error fetching counts:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchCounts()
-  }, [])
+    fetchCounts();
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -49,7 +39,9 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-2">Products</h2>
-            <p className="text-3xl font-bold text-primary mb-4">{productCount}</p>
+            <p className="text-3xl font-bold text-primary mb-4">
+              {productCount}
+            </p>
             <Link
               href="/admin/products"
               className="inline-block bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
@@ -60,7 +52,9 @@ export default function AdminDashboard() {
 
           <div className="bg-white p-6 rounded-lg shadow-md">
             <h2 className="text-xl font-semibold mb-2">Categories</h2>
-            <p className="text-3xl font-bold text-primary mb-4">{categoryCount}</p>
+            <p className="text-3xl font-bold text-primary mb-4">
+              {categoryCount}
+            </p>
             <Link
               href="/admin/categories"
               className="inline-block bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
@@ -71,5 +65,5 @@ export default function AdminDashboard() {
         </div>
       )}
     </div>
-  )
+  );
 }
