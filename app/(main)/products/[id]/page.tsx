@@ -1,57 +1,64 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import Image from "next/image"
-import { ArrowLeft } from "lucide-react"
-import PageTitle from "@/components/page-title"
-import ScrollReveal from "@/components/scroll-reveal"
-import { Skeleton } from "@/components/ui/skeleton"
-import { useProductStore } from "@/lib/store"
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
+import PageTitle from "@/components/page-title";
+import ScrollReveal from "@/components/scroll-reveal";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useProductStore } from "@/lib/store";
 
 export default function ProductDetail() {
-  const params = useParams()
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
+  const params = useParams();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   // Get state and actions from the store
-  const { selectedProduct, fetchProductById } = useProductStore()
+  const { selectedProduct, fetchProductById } = useProductStore();
 
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const productId = Number(params.id)
+        const productId = Number(params.id);
         if (isNaN(productId)) {
-          router.push("/products")
-          return
+          router.push("/products");
+          return;
         }
-
-        const product = await fetchProductById(productId)
+        const product = await fetchProductById(productId);
+        // console.log(product);
         if (!product) {
-          router.push("/products")
-          return
+          router.push("/products");
+          return;
         }
       } catch (error) {
-        console.error("Error fetching product:", error)
-        router.push("/products")
+        console.error("Error fetching product:", error);
+        router.push("/products");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    getProduct()
-  }, [params.id, router, fetchProductById])
+    getProduct();
+  }, [params.id, router, fetchProductById]);
 
   const goBack = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   return (
     <div>
-      <PageTitle title={loading ? "Product Detail" : selectedProduct?.name || "Product Detail"} />
+      <PageTitle
+        title={
+          loading ? "Product Detail" : selectedProduct?.name || "Product Detail"
+        }
+      />
 
       <div className="container mx-auto px-4 py-12">
-        <button onClick={goBack} className="flex items-center text-gray-600 hover:text-primary mb-8 transition-colors">
+        <button
+          onClick={goBack}
+          className="flex items-center text-gray-600 hover:text-primary mb-8 transition-colors"
+        >
           <ArrowLeft size={20} className="mr-2" />
           Back to Products
         </button>
@@ -82,12 +89,19 @@ export default function ProductDetail() {
 
               <ScrollReveal>
                 <div>
-                  <h1 className="text-3xl font-bold mb-2">{selectedProduct.name}</h1>
+                  <h1 className="text-3xl font-bold mb-2">
+                    {selectedProduct.name}
+                  </h1>
                   <p className="text-2xl font-bold text-primary mb-6 price-text">
-                    {selectedProduct.price.toLocaleString("vi-VN")}đ
+                    {selectedProduct.price?.toLocaleString("vi-VN")}đ
                   </p>
 
-                  <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: selectedProduct.detailHtml }} />
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{
+                      __html: selectedProduct.description || "",
+                    }}
+                  />
 
                   <div className="mt-8">
                     <button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors">
@@ -101,5 +115,5 @@ export default function ProductDetail() {
         )}
       </div>
     </div>
-  )
+  );
 }

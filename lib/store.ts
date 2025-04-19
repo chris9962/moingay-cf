@@ -1,30 +1,30 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
-import { products as initialProducts, fetchProductById } from "./product-data"
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { Product } from "./database.types";
 
 // Define the store state type
 interface ProductState {
   // Data
-  products: typeof initialProducts
-  selectedProduct: (typeof initialProducts)[0] | null
+  products: Product[];
+  selectedProduct: Product | null;
 
   // UI state
-  loading: boolean
-  searchTerm: string
-  selectedCategory: string
+  loading: boolean;
+  searchTerm: string;
+  selectedCategory: string;
 
   // Actions
-  setProducts: (products: typeof initialProducts) => void
-  setLoading: (loading: boolean) => void
-  setSearchTerm: (term: string) => void
-  setSelectedCategory: (category: string) => void
-  setSelectedProduct: (product: (typeof initialProducts)[0] | null) => void
+  setProducts: (products: Product[]) => void;
+  setLoading: (loading: boolean) => void;
+  setSearchTerm: (term: string) => void;
+  setSelectedCategory: (category: string) => void;
+  setSelectedProduct: (product: Product | null) => void;
 
   // Computed
-  getFilteredProducts: () => typeof initialProducts
+  getFilteredProducts: () => Product[];
 
   // Async actions
-  fetchProductById: (id: number) => Promise<(typeof initialProducts)[0] | null>
+  fetchProductById: (id: number) => Promise<Product | null>;
 }
 
 // Create the store with persistence
@@ -32,7 +32,7 @@ export const useProductStore = create<ProductState>()(
   persist(
     (set, get) => ({
       // Initial state
-      products: initialProducts,
+      products: [],
       selectedProduct: null,
       loading: true,
       searchTerm: "",
@@ -47,39 +47,37 @@ export const useProductStore = create<ProductState>()(
 
       // Computed values
       getFilteredProducts: () => {
-        const { products, searchTerm, selectedCategory } = get()
+        const { products, searchTerm, selectedCategory } = get();
 
         return products.filter((product) => {
           const matchesSearch =
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.description.toLowerCase().includes(searchTerm.toLowerCase())
-          const matchesCategory = selectedCategory === "all" || product.category === selectedCategory
+            product.description
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase());
+          const matchesCategory =
+            selectedCategory === "all" ||
+            product.categories.some(
+              (category) => category.name === selectedCategory
+            );
 
-          return matchesSearch && matchesCategory
-        })
+          return matchesSearch && matchesCategory;
+        });
       },
 
       // Async actions
       fetchProductById: async (id: number) => {
-        const { products } = get()
-
-        // First check if we already have the product in our store
-        const cachedProduct = products.find((product) => product.id === id)
-        if (cachedProduct) {
-          set({ selectedProduct: cachedProduct })
-          return cachedProduct
-        }
-
-        // If not, fetch it from the API
         try {
-          const product = await fetchProductById(id)
-          if (product) {
-            set({ selectedProduct: product })
+          const response = await fetch(`/api/admin/products/${id}`);
+          if (!response.ok) throw new Error("Failed to fetch product");
+          const { data } = await response.json();
+          if (data) {
+            set({ selectedProduct: data });
           }
-          return product
+          return data;
         } catch (error) {
-          console.error("Error fetching product:", error)
-          return null
+          console.error("Error fetching product:", error);
+          return null;
         }
       },
     }),
@@ -89,6 +87,6 @@ export const useProductStore = create<ProductState>()(
         products: state.products,
         selectedCategory: state.selectedCategory,
       }), // only persist these fields
-    },
-  ),
-)
+    }
+  )
+);
