@@ -1,0 +1,106 @@
+import Image from "next/image"
+import PageTitle from "@/components/page-title"
+import ScrollReveal from "@/components/scroll-reveal"
+
+export default function Workshop() {
+  return (
+    <div>
+      <PageTitle title="WORKSHOP" />
+
+      <ScrollReveal>
+        <div className="relative w-full h-[400px] mb-10">
+          <Image src="/barista-workshop.png" alt="mõingày workshop" fill className="object-cover rounded-lg" />
+        </div>
+      </ScrollReveal>
+
+      <div className="max-w-3xl mx-auto px-4">
+        <ScrollReveal>
+          <h2 className="text-2xl font-semibold mb-4">Coffee Brewing Workshops</h2>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <p className="text-gray-700 mb-6">
+            At mõingày, we believe in sharing our passion and knowledge about coffee. Our workshops are designed for
+            coffee enthusiasts of all levels, from beginners to advanced brewers. Join us to learn about different
+            brewing methods, coffee origins, and the art of creating the perfect cup.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+          <ScrollReveal direction="right">
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold mb-3">Beginner's Workshop</h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>Introduction to coffee varieties</li>
+                <li>Basic brewing techniques</li>
+                <li>Coffee tasting session</li>
+                <li>Take home a brewing kit</li>
+              </ul>
+              <p className="mt-4 font-semibold">Duration: 2 hours</p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal direction="left">
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold mb-3">Advanced Workshop</h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>Specialized brewing methods</li>
+                <li>Latte art techniques</li>
+                <li>Coffee bean roasting demonstration</li>
+                <li>Advanced tasting and flavor profiling</li>
+              </ul>
+              <p className="mt-4 font-semibold">Duration: 3 hours</p>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        <ScrollReveal>
+          <h2 className="text-2xl font-semibold mb-4">Upcoming Workshops</h2>
+        </ScrollReveal>
+
+        <div className="space-y-6 mb-10">
+          <ScrollReveal>
+            <div className="border-l-4 border-primary pl-4">
+              <h3 className="text-xl font-semibold">Pour-Over Mastery</h3>
+              <p className="text-gray-600">Saturday, May 15, 2023 | 10:00 AM - 12:00 PM</p>
+              <p className="text-gray-700 mt-2">
+                Learn the art of pour-over coffee brewing and how to achieve the perfect extraction.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <div className="border-l-4 border-primary pl-4">
+              <h3 className="text-xl font-semibold">Espresso Fundamentals</h3>
+              <p className="text-gray-600">Sunday, May 23, 2023 | 2:00 PM - 4:00 PM</p>
+              <p className="text-gray-700 mt-2">
+                Master the basics of espresso preparation and learn to pull the perfect shot.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <div className="border-l-4 border-primary pl-4">
+              <h3 className="text-xl font-semibold">Coffee Bean Journey</h3>
+              <p className="text-gray-600">Saturday, June 5, 2023 | 10:00 AM - 1:00 PM</p>
+              <p className="text-gray-700 mt-2">
+                Explore the journey of coffee from farm to cup, including roasting demonstration.
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+
+        <ScrollReveal>
+          <div className="bg-gray-100 p-6 rounded-lg text-center">
+            <h3 className="text-xl font-semibold mb-3">Book Your Workshop</h3>
+            <p className="text-gray-700 mb-4">
+              Interested in joining one of our workshops? Contact us to reserve your spot!
+            </p>
+            <p className="font-semibold">Email: workshop@moingay.com</p>
+            <p className="font-semibold">Phone: +84 123 456 789</p>
+          </div>
+        </ScrollReveal>
+      </div>
+    </div>
+  )
+}

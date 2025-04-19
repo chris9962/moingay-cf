@@ -1,0 +1,84 @@
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+
+export interface Database {
+  public: {
+    Tables: {
+      categories: {
+        Row: {
+          id: number
+          name: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          name: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      products: {
+        Row: {
+          id: number
+          name: string
+          image: string | null
+          subtitle: string | null
+          description: string | null
+          price: number
+          discount_price: number | null
+          status: "public" | "draft"
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          name: string
+          image?: string | null
+          subtitle?: string | null
+          description?: string | null
+          price: number
+          discount_price?: number | null
+          status?: "public" | "draft"
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          name?: string
+          image?: string | null
+          subtitle?: string | null
+          description?: string | null
+          price?: number
+          discount_price?: number | null
+          status?: "public" | "draft"
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      product_categories: {
+        Row: {
+          product_id: number
+          category_id: number
+        }
+        Insert: {
+          product_id: number
+          category_id: number
+        }
+        Update: {
+          product_id?: number
+          category_id?: number
+        }
+      }
+    }
+  }
+}
+
+export type Category = Database["public"]["Tables"]["categories"]["Row"]
+export type Product = Database["public"]["Tables"]["products"]["Row"]
+export type ProductWithCategories = Product & { categories: Category[] }
