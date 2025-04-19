@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./database.types";
-console.log(process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 // Get environment variables
 const supabaseUrl = process.env.SUPABASE_URL!;
