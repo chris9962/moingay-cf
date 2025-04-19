@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Package, Tag } from "lucide-react";
 
 export default function AdminDashboard() {
   const [productCount, setProductCount] = useState(0);
@@ -29,41 +29,10 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-
-      {loading ? (
-        <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-2">Products</h2>
-            <p className="text-3xl font-bold text-primary mb-4">
-              {productCount}
-            </p>
-            <Link
-              href="/admin/products"
-              className="inline-block bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Manage Products
-            </Link>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-2">Categories</h2>
-            <p className="text-3xl font-bold text-primary mb-4">
-              {categoryCount}
-            </p>
-            <Link
-              href="/admin/categories"
-              className="inline-block bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Manage Categories
-            </Link>
-          </div>
-        </div>
-      )}
+      <h1 className="text-3xl font-bold">Welcome to Admin Panel</h1>
+      <p className="text-gray-600">
+        Select an item from the sidebar to manage your content.
+      </p>
     </div>
   );
 }
