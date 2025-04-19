@@ -88,9 +88,9 @@ const ProductsSection = () => {
                 if (
                   navigationPrevRef.current &&
                   navigationNextRef.current &&
-                  swiper.params.navigation
+                  swiper.params?.navigation
                 ) {
-                  const navOptions = swiper.params.navigation as {
+                  const navOptions = swiper.params?.navigation as {
                     prevEl: HTMLElement | null;
                     nextEl: HTMLElement | null;
                   };
