@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Eye } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import PageTitle from "@/components/page-title";
 import { ProductGridSkeleton } from "@/components/product-skeleton";
 import ScrollReveal from "@/components/scroll-reveal";
@@ -15,7 +16,9 @@ import { useDebounce } from "@/hooks/use-debounce";
 
 export default function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [searchValue, setSearchValue] = useState(initialSearch);
 
   const {
     products,
