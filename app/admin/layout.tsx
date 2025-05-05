@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Package, Tag } from "lucide-react";
-
+import { useAuthStore } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 export default function AdminLayout({
   children,
 }: {
@@ -13,7 +14,8 @@ export default function AdminLayout({
   const [counts, setCounts] = useState({ productCount: 0, categoryCount: 0 });
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
-
+  const { logout } = useAuthStore();
+  const router = useRouter();
   useEffect(() => {
     const fetchCounts = async () => {
       try {
@@ -31,7 +33,10 @@ export default function AdminLayout({
 
     fetchCounts();
   }, []);
-
+  const signOut = () => {
+    logout();
+    router.push("/admin/login");
+  };
   const menuItems = [
     {
       name: "Products",
@@ -53,11 +58,11 @@ export default function AdminLayout({
       <aside
         className={`${"w-64"} bg-white shadow-md transition-all duration-300 ease-in-out`}
       >
-        <div className="p-4">
+        <div className="p-4 flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-xl font-bold text-primary">Admin Panel</h1>
           </div>
-          <nav>
+          <nav className="flex-1">
             <ul className="space-y-2">
               {menuItems.map((item) => (
                 <li key={item.href}>
@@ -87,6 +92,15 @@ export default function AdminLayout({
               ))}
             </ul>
           </nav>
+          {/* add button logout */}
+          <button
+            className="w-full bg-red-500 text-white p-2 rounded-md"
+            onClick={() => {
+              signOut();
+            }}
+          >
+            Logout
+          </button>
         </div>
       </aside>
 

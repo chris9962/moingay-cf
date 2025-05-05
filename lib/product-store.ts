@@ -175,7 +175,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
   },
 
-  fetchCategories: async (isUseAdminApi = true) => {
+  fetchCategories: async (isUseAdminApi = false) => {
     try {
       const response = isUseAdminApi
         ? await fetch("/api/admin/categories")

@@ -8,14 +8,11 @@ import {
 
 export async function GET(req: NextRequest) {
   try {
-    // Parse query parameters
     const url = new URL(req.url);
 
-    // Pagination
     const page = Number.parseInt(url.searchParams.get("page") || "1");
     const pageSize = Number.parseInt(url.searchParams.get("pageSize") || "10");
 
-    // Validate pagination parameters
     const paginationResult = paginationSchema.safeParse({ page, pageSize });
     if (!paginationResult.success) {
       return errorResponse("Invalid pagination parameters", 400);
@@ -24,7 +21,6 @@ export async function GET(req: NextRequest) {
     const { page: validPage, pageSize: validPageSize } = paginationResult.data;
     const offset = (validPage - 1) * validPageSize;
 
-    // Filtering
     const search = url.searchParams.get("search") || undefined;
     const minPrice = url.searchParams.get("minPrice")
       ? Number.parseInt(url.searchParams.get("minPrice") || "0")
@@ -45,7 +41,6 @@ export async function GET(req: NextRequest) {
           .map((id) => Number.parseInt(id))
       : undefined;
 
-    // Validate filter parameters
     const filterResult = productFilterSchema.safeParse({
       search,
       minPrice,
@@ -58,10 +53,45 @@ export async function GET(req: NextRequest) {
       return errorResponse("Invalid filter parameters", 400);
     }
 
-    // Build the query
+    // STEP 1: Lấy product_ids theo category (nếu có)
+    let categoryProductIds: number[] | undefined = undefined;
+
+    if (categoryIds && categoryIds.length > 0) {
+      const { data: productCategoryLinks, error: catErr } = await supabaseAdmin
+        .from("product_categories")
+        .select("product_id")
+        .in("category_id", categoryIds);
+
+      if (catErr) throw catErr;
+
+      categoryProductIds = [
+        ...new Set(productCategoryLinks.map((pc) => pc.product_id)),
+      ];
+
+      // Nếu không có sản phẩm nào thỏa điều kiện category → trả rỗng
+      if (categoryProductIds.length === 0) {
+        return successResponse(
+          {
+            data: [],
+            pagination: {
+              page: validPage,
+              pageSize: validPageSize,
+              totalCount: 0,
+              totalPages: 0,
+            },
+          },
+          "No products found with selected categories"
+        );
+      }
+    }
+
+    // STEP 2: Query product + filter
     let query = supabaseAdmin.from("products").select("*", { count: "exact" });
 
-    // Apply filters
+    if (categoryProductIds) {
+      query = query.in("id", categoryProductIds);
+    }
+
     if (search) {
       query = query.ilike("name", `%${search}%`);
     }
@@ -78,40 +108,18 @@ export async function GET(req: NextRequest) {
       query = query.eq("status", status);
     }
 
-    // Apply pagination
+    // STEP 3: Pagination
     query = query
       .range(offset, offset + validPageSize - 1)
       .order("created_at", { ascending: false });
 
-    // Execute the query
-    const { data, error, count } = await query;
+    const { data: _data, error, count } = await query;
+    let data = _data || [];
 
     if (error) throw error;
 
-    // If category filtering is requested, we need to fetch the product-category relationships
-    if (categoryIds && categoryIds.length > 0) {
-      // Get all product IDs
-      const productIds = data.map((product) => product.id);
-
-      // Get product-category relationships
-      const { data: productCategories, error: relError } = await supabaseAdmin
-        .from("product_categories")
-        .select("product_id, category_id")
-        .in("product_id", productIds);
-
-      if (relError) throw relError;
-
-      // Filter products that have at least one of the requested categories
-      const filteredProductIds = productCategories
-        .filter((pc) => categoryIds.includes(pc.category_id))
-        .map((pc) => pc.product_id);
-
-      // Filter the products
-      data.filter((product) => filteredProductIds.includes(product.id));
-    }
-
-    // Get categories for each product
-    const productIds = data.map((product) => product.id);
+    // STEP 4: Lấy danh mục của từng product
+    const productIds = data.map((p) => p.id);
 
     if (productIds.length > 0) {
       const { data: productCategoriesData, error: pcError } =
@@ -122,7 +130,6 @@ export async function GET(req: NextRequest) {
 
       if (pcError) throw pcError;
 
-      // Group categories by product_id
       const categoriesByProductId: Record<number, any[]> = {};
       productCategoriesData.forEach((item) => {
         if (!categoriesByProductId[item.product_id]) {
@@ -131,13 +138,11 @@ export async function GET(req: NextRequest) {
         categoriesByProductId[item.product_id].push(item.categories);
       });
 
-      // Add categories to each product
       data.forEach((product) => {
         product.categories = categoriesByProductId[product.id] || [];
       });
     }
 
-    // Calculate pagination info
     const totalCount = count || 0;
     const totalPages = Math.ceil(totalCount / validPageSize);
 
