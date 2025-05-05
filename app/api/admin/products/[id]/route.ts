@@ -7,7 +7,6 @@ import {
 } from "@/lib/api-utils";
 import { productSchema } from "@/lib/validation-schemas";
 
-// GET /api/admin/products/[id] - Get a specific product
 export async function GET(req: NextRequest, context: any) {
   const c = await context.params;
   const id = Number.parseInt(c.id);
@@ -53,7 +52,6 @@ export async function GET(req: NextRequest, context: any) {
   }
 }
 
-// PUT /api/admin/products/[id] - Update a product
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -168,7 +166,6 @@ export async function PUT(
   }
 }
 
-// DELETE /api/admin/products/[id] - Delete a product
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }

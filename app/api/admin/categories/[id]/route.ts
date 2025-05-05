@@ -1,46 +1,61 @@
-import type { NextRequest } from "next/server"
-import { supabaseAdmin } from "@/lib/supabase"
-import { validateRequest, successResponse, errorResponse } from "@/lib/api-utils"
-import { categorySchema } from "@/lib/validation-schemas"
+import type { NextRequest } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
+import {
+  validateRequest,
+  successResponse,
+  errorResponse,
+} from "@/lib/api-utils";
+import { categorySchema } from "@/lib/validation-schemas";
 
-// GET /api/admin/categories/[id] - Get a specific category
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number.parseInt(params.id)
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = Number.parseInt(params.id);
 
   if (isNaN(id)) {
-    return errorResponse("Invalid category ID", 400)
+    return errorResponse("Invalid category ID", 400);
   }
 
   try {
-    const { data, error } = await supabaseAdmin.from("categories").select("*").eq("id", id).single()
+    const { data, error } = await supabaseAdmin
+      .from("categories")
+      .select("*")
+      .eq("id", id)
+      .single();
 
     if (error) {
       if (error.code === "PGRST116") {
-        return errorResponse("Category not found", 404)
+        return errorResponse("Category not found", 404);
       }
-      throw error
+      throw error;
     }
 
-    return successResponse(data, "Category retrieved successfully")
+    return successResponse(data, "Category retrieved successfully");
   } catch (error) {
-    console.error("Error fetching category:", error)
-    return errorResponse(error instanceof Error ? error.message : "Failed to fetch category", 500)
+    console.error("Error fetching category:", error);
+    return errorResponse(
+      error instanceof Error ? error.message : "Failed to fetch category",
+      500
+    );
   }
 }
 
-// PUT /api/admin/categories/[id] - Update a category
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number.parseInt(params.id)
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = Number.parseInt(params.id);
 
   if (isNaN(id)) {
-    return errorResponse("Invalid category ID", 400)
+    return errorResponse("Invalid category ID", 400);
   }
 
   // Validate request body
-  const validation = await validateRequest(req, categorySchema)
+  const validation = await validateRequest(req, categorySchema);
 
   if (!validation.success) {
-    return errorResponse("Invalid category data", 400, validation.errors)
+    return errorResponse("Invalid category data", 400, validation.errors);
   }
 
   try {
@@ -49,13 +64,13 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       .from("categories")
       .select("id")
       .eq("id", id)
-      .single()
+      .single();
 
     if (checkError) {
       if (checkError.code === "PGRST116") {
-        return errorResponse("Category not found", 404)
+        return errorResponse("Category not found", 404);
       }
-      throw checkError
+      throw checkError;
     }
 
     // Update the category
@@ -64,23 +79,28 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       .update(validation.data)
       .eq("id", id)
       .select()
-      .single()
+      .single();
 
-    if (error) throw error
+    if (error) throw error;
 
-    return successResponse(data, "Category updated successfully")
+    return successResponse(data, "Category updated successfully");
   } catch (error) {
-    console.error("Error updating category:", error)
-    return errorResponse(error instanceof Error ? error.message : "Failed to update category", 500)
+    console.error("Error updating category:", error);
+    return errorResponse(
+      error instanceof Error ? error.message : "Failed to update category",
+      500
+    );
   }
 }
 
-// DELETE /api/admin/categories/[id] - Delete a category
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number.parseInt(params.id)
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = Number.parseInt(params.id);
 
   if (isNaN(id)) {
-    return errorResponse("Invalid category ID", 400)
+    return errorResponse("Invalid category ID", 400);
   }
 
   try {
@@ -89,23 +109,29 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       .from("categories")
       .select("id")
       .eq("id", id)
-      .single()
+      .single();
 
     if (checkError) {
       if (checkError.code === "PGRST116") {
-        return errorResponse("Category not found", 404)
+        return errorResponse("Category not found", 404);
       }
-      throw checkError
+      throw checkError;
     }
 
     // Delete the category
-    const { error } = await supabaseAdmin.from("categories").delete().eq("id", id)
+    const { error } = await supabaseAdmin
+      .from("categories")
+      .delete()
+      .eq("id", id);
 
-    if (error) throw error
+    if (error) throw error;
 
-    return successResponse(null, "Category deleted successfully")
+    return successResponse(null, "Category deleted successfully");
   } catch (error) {
-    console.error("Error deleting category:", error)
-    return errorResponse(error instanceof Error ? error.message : "Failed to delete category", 500)
+    console.error("Error deleting category:", error);
+    return errorResponse(
+      error instanceof Error ? error.message : "Failed to delete category",
+      500
+    );
   }
 }

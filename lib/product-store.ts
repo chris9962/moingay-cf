@@ -27,9 +27,9 @@ interface ProductState {
   viewMode: "grid" | "table";
 
   // Actions
-  fetchProducts: () => Promise<void>;
-  fetchProductById: (id: number) => Promise<void>;
-  fetchCategories: () => Promise<void>;
+  fetchProducts: (isUseAdminApi?: boolean) => Promise<void>;
+  fetchProductById: (id: number, isUseAdminApi?: boolean) => Promise<void>;
+  fetchCategories: (isUseAdminApi?: boolean) => Promise<void>;
   setFilters: (filters: Partial<ProductState["filters"]>) => void;
   setPagination: (
     pagination: Partial<{ page: number; pageSize: number }>
@@ -80,7 +80,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   viewMode: "grid",
 
   // Actions
-  fetchProducts: async () => {
+  fetchProducts: async (isUseAdminApi = false) => {
     set({ loading: true, error: null });
     try {
       const { filters, pagination } = get();
@@ -112,7 +112,9 @@ export const useProductStore = create<ProductState>((set, get) => ({
 
       // Fetch products from API
       const response = await fetch(
-        `/api/admin/products?${queryParams.toString()}`
+        isUseAdminApi
+          ? `/api/admin/products?${queryParams.toString()}`
+          : `/api/products?${queryParams.toString()}`
       );
       const result = await response.json();
 
@@ -141,10 +143,12 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
   },
 
-  fetchProductById: async (id: number) => {
+  fetchProductById: async (id: number, isUseAdminApi = true) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`/api/admin/products/${id}`);
+      const response = isUseAdminApi
+        ? await fetch(`/api/admin/products/${id}`)
+        : await fetch(`/api/products/${id}`);
       const result = await response.json();
 
       if (!result.success) {
@@ -171,9 +175,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
   },
 
-  fetchCategories: async () => {
+  fetchCategories: async (isUseAdminApi = true) => {
     try {
-      const response = await fetch("/api/admin/categories");
+      const response = isUseAdminApi
+        ? await fetch("/api/admin/categories")
+        : await fetch("/api/categories");
       const result = await response.json();
 
       if (!result.success) {

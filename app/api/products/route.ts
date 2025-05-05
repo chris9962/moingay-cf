@@ -1,12 +1,7 @@
 import type { NextRequest } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { successResponse, errorResponse } from "@/lib/api-utils";
 import {
-  validateRequest,
-  successResponse,
-  errorResponse,
-} from "@/lib/api-utils";
-import {
-  productSchema,
   paginationSchema,
   productFilterSchema,
 } from "@/lib/validation-schemas";
@@ -162,82 +157,6 @@ export async function GET(req: NextRequest) {
     console.error("Error fetching products:", error);
     return errorResponse(
       error instanceof Error ? error.message : "Failed to fetch products",
-      500
-    );
-  }
-}
-
-export async function POST(req: NextRequest) {
-  // Validate request body
-  const validation = await validateRequest(req, productSchema);
-
-  if (!validation.success) {
-    return errorResponse("Invalid product data", 400, validation.errors);
-  }
-
-  try {
-    // Extract category IDs from the validated data
-    const { categoryIds, ...productData } = validation.data as {
-      categoryIds: number[];
-      [key: string]: any;
-    };
-
-    // Start a transaction by using a single connection
-    const { data, error } = await supabaseAdmin
-      .from("products")
-      .insert(productData)
-      .select()
-      .single();
-
-    if (error) throw error;
-    // If categories are provided, create the relationships
-    if (categoryIds && categoryIds.length > 0) {
-      const productCategories = categoryIds.map((categoryId: number) => ({
-        product_id: data.id,
-        category_id: categoryId,
-      }));
-
-      const { error: relError } = await supabaseAdmin
-        .from("product_categories")
-        .insert(productCategories);
-
-      if (relError) throw relError;
-    }
-
-    // Get the product with its categories
-    const { data: productWithCategories, error: fetchError } =
-      await supabaseAdmin
-        .from("products")
-        .select(
-          `
-        *,
-        categories:product_categories(
-          category:categories(*)
-        )
-      `
-        )
-        .eq("id", data.id)
-        .single();
-
-    if (fetchError) throw fetchError;
-
-    // Format the response
-    const formattedProduct = {
-      ...productWithCategories,
-      categories: productWithCategories.categories.map(
-        (item: any) => item.category
-      ),
-    };
-
-    return successResponse(
-      formattedProduct,
-      "Product created successfully",
-      201
-    );
-  } catch (error) {
-    console.error("Error creating product:", error);
-    return errorResponse(
-      error instanceof Error ? error.message : "Failed to create product",
       500
     );
   }

@@ -39,8 +39,8 @@ export default function Products() {
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
+    fetchProducts(false);
+    fetchCategories(false);
   }, [fetchProducts, fetchCategories]);
 
   // Update filters when debounced search value changes
