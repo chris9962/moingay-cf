@@ -143,7 +143,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
   },
 
-  fetchProductById: async (id: number, isUseAdminApi = true) => {
+  fetchProductById: async (id: number, isUseAdminApi = false) => {
     set({ loading: true, error: null });
     try {
       const response = isUseAdminApi

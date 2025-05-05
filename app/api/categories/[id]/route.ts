@@ -2,7 +2,6 @@ import type { NextRequest } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { successResponse, errorResponse } from "@/lib/api-utils";
 
-// GET /api/admin/categories/[id] - Get a specific category
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
