@@ -73,7 +73,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
   },
   pagination: {
     page: 1,
-    pageSize: 10,
+    pageSize: 12,
     totalCount: 0,
     totalPages: 0,
   },

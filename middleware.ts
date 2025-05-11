@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Check if the path is for the admin API
-  if (path.startsWith("/api/admin")) {
+  if (path.startsWith("/api/admin") || path.startsWith("/admin")) {
     // Get the auth token from the cookies
     const authToken = request.cookies.get("admin-auth-token")?.value;
     console.log("authToken", authToken);

@@ -12,27 +12,32 @@ import "swiper/css/navigation";
 const galleryImages = [
   {
     id: 1,
-    image: "/cafe-conversations.png",
+    image: "/gallery/1.jpg",
     alt: "Coffee shop interior",
   },
   {
     id: 2,
-    image: "/cafe-al-fresco.png",
+    image: "/gallery/2.jpg",
     alt: "Outdoor seating",
   },
   {
     id: 3,
-    image: "/cozy-coffee-corner.png",
+    image: "/gallery/3.jpg",
     alt: "Coffee shop ambiance",
   },
   {
     id: 4,
-    image: "/cafe-conversation.png",
+    image: "/gallery/4.jpg",
     alt: "Customers enjoying coffee",
   },
   {
     id: 5,
-    image: "/plant-filled-coffee-shop.png",
+    image: "/gallery/5.jpg",
+    alt: "Coffee shop sign",
+  },
+  {
+    id: 6,
+    image: "/gallery/6.jpg",
     alt: "Coffee shop sign",
   },
 ];

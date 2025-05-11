@@ -1,70 +1,77 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useEffect, useState } from "react"
-import { useProductStore } from "@/lib/product-store"
-import { Plus, Edit, Trash2, X } from "lucide-react"
+import { useEffect, useState } from "react";
+import { useProductStore } from "@/lib/product-store";
+import { Plus, Edit, Trash2, X } from "lucide-react";
 
 export default function CategoriesPage() {
-  const { categories, fetchCategories, createCategory, updateCategory, deleteCategory } = useProductStore()
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [categoryName, setCategoryName] = useState("")
-  const [editingCategoryId, setEditingCategoryId] = useState<number | null>(null)
-  const [loading, setLoading] = useState(true)
+  const {
+    categories,
+    fetchCategories,
+    createCategory,
+    updateCategory,
+    deleteCategory,
+  } = useProductStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+  const [editingCategoryId, setEditingCategoryId] = useState<number | null>(
+    null
+  );
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
-      await fetchCategories()
-      setLoading(false)
-    }
-    loadData()
-  }, [fetchCategories])
+      await fetchCategories();
+      setLoading(false);
+    };
+    loadData();
+  }, [fetchCategories]);
 
   const handleOpenModal = (id?: number, name?: string) => {
     if (id && name) {
-      setEditingCategoryId(id)
-      setCategoryName(name)
+      setEditingCategoryId(id);
+      setCategoryName(name);
     } else {
-      setEditingCategoryId(null)
-      setCategoryName("")
+      setEditingCategoryId(null);
+      setCategoryName("");
     }
-    setIsModalOpen(true)
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setEditingCategoryId(null)
-    setCategoryName("")
-  }
+    setIsModalOpen(false);
+    setEditingCategoryId(null);
+    setCategoryName("");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!categoryName.trim()) return
+    if (!categoryName.trim()) return;
 
     try {
       if (editingCategoryId) {
-        await updateCategory(editingCategoryId, categoryName)
+        await updateCategory(editingCategoryId, categoryName);
       } else {
-        await createCategory(categoryName)
+        await createCategory(categoryName);
       }
-      handleCloseModal()
+      handleCloseModal();
     } catch (error) {
-      console.error("Error saving category:", error)
+      console.error("Error saving category:", error);
     }
-  }
+  };
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
-        await deleteCategory(id)
+        await deleteCategory(id);
       } catch (error) {
-        console.error("Error deleting category:", error)
+        console.error("Error deleting category:", error);
       }
     }
-  }
-
+  };
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -84,12 +91,16 @@ export default function CategoriesPage() {
       ) : (
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {categories.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">No categories found. Add your first category!</div>
+            <div className="p-6 text-center text-gray-500">
+              No categories found. Add your first category!
+            </div>
           ) : (
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ID
+                  </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Name
                   </th>
@@ -101,16 +112,25 @@ export default function CategoriesPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {categories.map((category) => (
                   <tr key={category.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{category.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{category.name}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {category.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {category.name}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
-                        onClick={() => handleOpenModal(category.id, category.name)}
+                        onClick={() =>
+                          handleOpenModal(category.id, category.name)
+                        }
                         className="text-blue-600 hover:text-blue-900 mr-3"
                       >
                         <Edit size={18} />
                       </button>
-                      <button onClick={() => handleDelete(category.id)} className="text-red-600 hover:text-red-900">
+                      <button
+                        onClick={() => handleDelete(category.id)}
+                        className="text-red-600 hover:text-red-900"
+                      >
                         <Trash2 size={18} />
                       </button>
                     </td>
@@ -127,15 +147,23 @@ export default function CategoriesPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">{editingCategoryId ? "Edit Category" : "Add Category"}</h2>
-              <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
+              <h2 className="text-xl font-bold">
+                {editingCategoryId ? "Edit Category" : "Add Category"}
+              </h2>
+              <button
+                onClick={handleCloseModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
                 <X size={24} />
               </button>
             </div>
 
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="categoryName"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Category Name
                 </label>
                 <input
@@ -156,7 +184,10 @@ export default function CategoriesPage() {
                 >
                   Cancel
                 </button>
-                <button type="submit" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+                >
                   {editingCategoryId ? "Update" : "Add"}
                 </button>
               </div>
@@ -165,5 +196,5 @@ export default function CategoriesPage() {
         </div>
       )}
     </div>
-  )
+  );
 }

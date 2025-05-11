@@ -13,21 +13,21 @@ import "swiper/css/pagination";
 const slides = [
   {
     id: 1,
-    image: "/wooden-haven-cafe.png",
-    title: "mõingày. original",
-    location: "mõingày • 14 Phạm Hồng Thái, Huế",
+    image: "/hero/1.jpg",
+    title: "",
+    location: "",
   },
   {
     id: 2,
-    image: "/cozy-cafe-buzz.png",
-    title: "mõingày. experience",
-    location: "mõingày • 25 Nguyễn Thị Minh Khai, Huế",
+    image: "/hero/2.jpg",
+    title: "",
+    location: "",
   },
   {
     id: 3,
-    image: "/cozy-cafe-corner.png",
-    title: "mõingày. atmosphere",
-    location: "mõingày • 86 Đinh Tiên Hoàng, Huế",
+    image: "/hero/3.jpg",
+    title: "",
+    location: "",
   },
 ];
 
@@ -39,7 +39,7 @@ const HeroSlider = () => {
   return (
     <div className="relative w-full overflow-hidden">
       {/* Use aspect ratio for desktop and tablet, fixed height for mobile */}
-      <div className="hidden sm:block w-full aspect-[1.66/1] max-h-[600px]">
+      <div className="hidden sm:block w-full aspect-[1.66/1] max-h-[700px]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={0}

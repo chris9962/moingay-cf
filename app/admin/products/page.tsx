@@ -8,8 +8,9 @@ import Image from "next/image";
 import { useProductStore } from "@/lib/product-store";
 import { Plus, Edit, Trash2, Eye, Grid, List, Search } from "lucide-react";
 import QRCodeGenerator from "@/components/qr-code-generator";
-
+import { useAuthStore } from "@/lib/auth";
 export default function ProductsPage() {
+  const { isAuthenticated } = useAuthStore();
   const {
     products,
     loading,
@@ -31,8 +32,10 @@ export default function ProductsPage() {
       await fetchCategories();
       await fetchProducts();
     };
-    loadData();
-  }, [fetchProducts, fetchCategories]);
+    if (isAuthenticated) {
+      loadData();
+    }
+  }, [fetchProducts, fetchCategories, isAuthenticated]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
