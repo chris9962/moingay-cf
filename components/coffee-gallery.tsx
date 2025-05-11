@@ -37,7 +37,7 @@ const galleryImages = [
   },
   {
     id: 6,
-    image: "/gallery/6.jpg",
+    image: "/gallery/7.jpg",
     alt: "Coffee shop sign",
   },
 ];
