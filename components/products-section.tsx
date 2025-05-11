@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -9,34 +9,52 @@ import { Navigation, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-
-const products = [
-  {
-    id: 1,
-    image: "/honey-drizzled-coffee.png",
-    alt: "Honey Coffee",
-  },
-  {
-    id: 2,
-    image: "/layered-coffee-pastry-delights.png",
-    alt: "Coffee Desserts",
-  },
-  {
-    id: 3,
-    image: "/iced-coffee-pour.png",
-    alt: "Iced Coffee",
-  },
-  {
-    id: 4,
-    image: "/coffee-dessert-board.png",
-    alt: "Coffee Specialties",
-  },
-];
+import { ZodNullDef } from "zod";
 
 const ProductsSection = () => {
   const navigationPrevRef = useRef<HTMLButtonElement>(null);
   const navigationNextRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
+  const [products, setProducts] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchRandomProducts = async () => {
+      try {
+        const response = await fetch("/api/products/random");
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Failed to fetch products");
+        }
+
+        if (!result.success) {
+          throw new Error(result.message || "Failed to fetch products");
+        }
+        console.log(result.data);
+        if (result.data.length === 0) {
+          console.log("No products found");
+          setProducts([]);
+        } else {
+          setProducts(result.data);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "An error occurred while fetching products"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRandomProducts();
+  }, []);
+  if (error || loading) {
+    return null;
+  }
 
   return (
     <section className="py-16 bg-[#363737] text-white">
