@@ -49,7 +49,7 @@ const StorySection = () => {
             </div>
             <div className="relative h-60 rounded-lg overflow-hidden">
               <Image
-                src="/aboutus/3.jpg"
+                src="/aboutus/31.jpg"
                 alt="mõingày cafe interior"
                 fill
                 className="object-cover"
