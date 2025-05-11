@@ -125,9 +125,9 @@ const ProductsSection = () => {
                 <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden">
                   <Image
                     src={product.image || "/placeholder.svg"}
-                    alt={product.alt}
                     fill
                     className="object-cover transition-transform hover:scale-105 duration-500"
+                    alt={product.name}
                   />
                 </div>
               </SwiperSlide>
