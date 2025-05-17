@@ -1,11 +1,11 @@
-import PageTitle from "@/components/page-title"
-import AboutSlider from "@/components/about-slider"
-import ScrollReveal from "@/components/scroll-reveal"
+import PageTitle from "@/components/page-title";
+import AboutSlider from "@/components/about-slider";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function AboutUs() {
   return (
     <div>
-      <PageTitle title="ABOUT US" />
+      <PageTitle title="Về chúng mình" />
 
       <AboutSlider />
 
@@ -13,50 +13,74 @@ export default function AboutUs() {
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">Our Story</h2>
+              <h2 className="text-2xl font-bold mb-4"> Câu chuyện</h2>
               <p className="text-gray-700">
-                mõingày là một thương hiệu cà phê tại Huế, Việt Nam được sáng lập vào năm 2017. Khởi đầu là một quán cà
-                phê mang không khí hoài cổ, mõingày original nằm nép mình ở 14 Phạm Hồng Thái. Đây là mõingày nguyên bản
-                đầu tiên, là khởi đầu kể nên câu chuyện chung trên phông nền riêng biệt, trở thành tiền đề để mở ra tinh
-                thần của thương hiệu sau này.
+                mỗingày là thương hiệu tại Cần Thơ, Việt Nam. Với tâm niệm mang
+                đến niềm vui và gắn kết cảm xúc thông qua chất liệu từ sự kết
+                nối với trải nghiệm đời sống thường nhật. mỗingày khởi đầu là mô
+                hình tiệm hoa, kế đến là không gian café kết hợp tiệm hoa, từ
+                năm 2021. Dù là ở dáng hình nào, kim chỉ nam xuyên suốt cho câu
+                chuyện thương hiệu từ mỗingày đã, đang và sẽ luôn mang đến những
+                điều dễ chịu, gần gũi và thuần lành.
               </p>
             </div>
           </ScrollReveal>
 
           <ScrollReveal>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">Our Philosophy</h2>
+              <h2 className="text-2xl font-bold mb-4">Tinh thần </h2>
               <p className="text-gray-700">
-                Với không gian ấm cúng và thân thiện, mõingày mang đến cho khách hàng không chỉ là những tách cà phê
-                thơm ngon mà còn là trải nghiệm thư giãn, gặp gỡ và kết nối. Chúng tôi tự hào về nguồn cà phê chất lượng
-                cao được lựa chọn kỹ lưỡng từ các vùng trồng nổi tiếng của Việt Nam.
+                “mỗi ngày cùng chọn một niềm vui “ – câu hát của cố nhạc sĩ
+                Trịnh Công Sơn đã định hình nên phong cách của mỗingày, với mong
+                muốn khi ở tại mỗingày, bạn sẽ luôn có thể gọi tên được niềm vui
+                cho riêng mình. mỗingày.homespace homespace là nơi mở ra câu
+                chuyện trên phông nền chung với khởi đầu vào năm 2021, là một
+                tiệm hoa. Tại homespace, mỗingày gửi đến khách hàng những câu
+                chuyện, những khoảnh khắc, những bài học được góp nhặt thông qua
+                trải nghiệm cá nhân trong đời sống thường nhật, để trải nghiệm
+                về hoa cỏ không chỉ dừng lại ở hoa cỏ, mà như là một lời thủ thỉ
+                về những điều xung quanh. homespace là nơi giao lưu, mở rộng và
+                kết nối rất nhiều con người,cuộc gặp để tạo tiền đề cho không
+                gian tại mỗingày.atelier sau này. mỗingày.atelier atelier là nơi
+                tiếp nối hành trình của homespace, bước ngoặt mới và là cột mốc
+                trong câu chuyện tinh thần từ mỗingày. Là mô hình tiệm hoa kết
+                hợp không gian thưởng thức các món thức uống được và tổ chức
+                workshop định kỳ. atelier chú trọng đến giá trị cảm xúc và chất
+                lượng trong từng sản phẩm. tại atelier, mỗi thức uống đều gợi
+                lên một trạng thái, giá trị, nếp sống mong muốn được ôm ấp và
+                gìn giữ. Nhìn chung, atelier mang đến không gian để mỗi trải
+                nghiệm đều quay về với sự kết nối tự thân, gần gũi và sự kết nối
+                với những điều đẹp đẽ xung quanh.
               </p>
             </div>
           </ScrollReveal>
 
           <ScrollReveal>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">Our Growth</h2>
+              <h2 className="text-2xl font-bold mb-4">Giá trị </h2>
               <p className="text-gray-700">
-                Qua nhiều năm phát triển, mõingày đã mở rộng với nhiều chi nhánh tại Huế và Đà Nẵng, mỗi địa điểm đều
-                mang một nét đặc trưng riêng nhưng vẫn giữ nguyên tinh thần và chất lượng của thương hiệu. Chúng tôi
-                không ngừng đổi mới và sáng tạo để mang đến những trải nghiệm tuyệt vời nhất cho khách hàng.
+                mỗingày ấp ủ là một chốn dừng chân, là một nơi thân gần để khi
+                bạn cần nơi để quay về hay một điểm tựa giữa những điều mông
+                lung bên ngoài, bạn hoàn toàn có thể tin tưởng và cảm thấy an
+                toàn. mỗingày, vì vậy không giới hạn chỉ là một tiệm hoa hay một
+                quán café,.. mà dù trong bất kỳ dáng hình nào, mỗingày đều ươm
+                những hạt giống thuần lành và chân thành trong từng bước đi.
               </p>
             </div>
           </ScrollReveal>
 
           <ScrollReveal>
             <div>
-              <h2 className="text-2xl font-bold mb-4">Our Invitation</h2>
+              <h2 className="text-2xl font-bold mb-4">Tiếp bước</h2>
               <p className="text-gray-700">
-                Tại mõingày, chúng tôi tin rằng mỗi tách cà phê là một câu chuyện, một khoảnh khắc để thưởng thức và
-                chia sẻ. Chúng tôi mời bạn đến và trải nghiệm không gian, hương vị và văn hóa cà phê độc đáo của chúng
-                tôi.
+                mỗingày vẫn đang ấp ủ và ươm mầm những hạt giống mới, viết thêm
+                những câu chuyện mới, để tiếp nối dòng chảy từ 2021 đến nay, và
+                cả những năm sau nữa.
               </p>
             </div>
           </ScrollReveal>
         </div>
       </div>
     </div>
-  )
+  );
 }

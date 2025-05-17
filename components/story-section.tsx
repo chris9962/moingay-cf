@@ -14,11 +14,11 @@ const StorySection = () => {
             <h2 className="text-3xl font-bold mt-2 mb-4">mỗingày</h2>
             <p className="text-gray-700 mb-6">
               mỗingày là thương hiệu tại Cần Thơ, Việt Nam. Khởi đầu với mô hình
-              tiệm hoa nhỏ theo style xinh xắn, được sáng lập vào cuối 2021. với
-              tâm niệm mang đến niềm vui và gắn kết giá trị cảm xúc đến mọi
-              người thông qua chất liệu từ sự kết nối với đời sống thường nhật
-              và trải nghiệm tinh thần. Đó là kim chỉ nam xuyên suốt cho câu
-              chuyện thương hiệu từ mỗingày.
+              tiệm hoa, sau đó là sự mở rộng thành không gian cafe kết hợp tiệm
+              hoa, được sáng lập vào cuối 2021. Với tâm niệm mang đến niềm vui
+              và gắn kết giá trị cảm xúc đến mọi người thông qua chất liệu từ sự
+              kết nối với đời sống thường nhật và trải nghiệm tinh thần. Đó là
+              kim chỉ nam xuyên suốt cho câu chuyện thương hiệu từ mỗingày.
             </p>
             <Link
               href="/about-us"

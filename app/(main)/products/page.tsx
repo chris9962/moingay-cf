@@ -72,7 +72,7 @@ export default function Products() {
 
   return (
     <div>
-      <PageTitle title="PRODUCTS" />
+      <PageTitle title="Sản phẩm" />
 
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">

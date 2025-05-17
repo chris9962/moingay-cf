@@ -12,24 +12,19 @@ import "swiper/css/pagination";
 
 const aboutImages = [
   {
-    id: 1,
-    image: "/about-us-cafe.png",
-    alt: "mõingày cafe exterior",
-  },
-  {
     id: 2,
-    image: "/plant-filled-cafe.png",
+    image: "/aboutus/2.jpg",
     alt: "mõingày cafe interior with plants",
   },
   {
-    id: 3,
-    image: "/cozy-coffee-entry.png",
-    alt: "mõingày cafe entrance",
+    id: 1,
+    image: "/aboutus/1.jpg",
+    alt: "mõingày cafe exterior",
   },
   {
-    id: 4,
-    image: "/cafe-conversations.png",
-    alt: "Customers enjoying coffee",
+    id: 3,
+    image: "/aboutus/31.jpg",
+    alt: "mõingày cafe entrance",
   },
 ];
 
@@ -73,16 +68,16 @@ const AboutSlider = () => {
                 }
               });
             }}
-            className="w-full"
+            className="w-full rounded-xl"
           >
             {aboutImages.map((item) => (
               <SwiperSlide key={item.id}>
-                <div className="relative w-full h-[400px]">
+                <div className="relative w-full h-[600px] rounded-xl">
                   <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.alt}
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-xl"
                   />
                 </div>
               </SwiperSlide>

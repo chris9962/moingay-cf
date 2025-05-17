@@ -60,7 +60,7 @@ const ProductsSection = () => {
     <section className="py-16 bg-[#363737] text-white">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold text-center mb-4 dark-text">
-          PRODUCTS
+          Sản phẩm
         </h2>
 
         <div className="flex justify-center mb-10">
@@ -82,7 +82,7 @@ const ProductsSection = () => {
                 slidesPerView: 2,
               },
               768: {
-                slidesPerView: 3,
+                slidesPerView: 2,
               },
               1280: {
                 slidesPerView: 4,

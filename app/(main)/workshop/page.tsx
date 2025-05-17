@@ -1,24 +1,31 @@
-import Image from "next/image"
-import PageTitle from "@/components/page-title"
-import ScrollReveal from "@/components/scroll-reveal"
+import Image from "next/image";
+import PageTitle from "@/components/page-title";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function Workshop() {
   return (
-    <div>
-      <PageTitle title="WORKSHOP" />
+    <div className="flex-1 h-[500px]">
+      <PageTitle title="Coming Soon..." />
 
-      <ScrollReveal>
+      {/* <ScrollReveal>
         <div className="relative w-full h-[400px] mb-10">
-          <Image src="/barista-workshop.png" alt="mõingày workshop" fill className="object-cover rounded-lg" />
+          <Image
+            src="/barista-workshop.png"
+            alt="mõingày workshop"
+            fill
+            className="object-cover rounded-lg"
+          />
         </div>
-      </ScrollReveal>
+      </ScrollReveal> */}
 
       <div className="max-w-3xl mx-auto px-4">
-        <ScrollReveal>
-          <h2 className="text-2xl font-semibold mb-4">Coffee Brewing Workshops</h2>
-        </ScrollReveal>
+        {/* <ScrollReveal>
+          <h2 className="text-2xl font-semibold mb-4 text-center my-10">
+            Coming Soon...
+          </h2>
+        </ScrollReveal> */}
 
-        <ScrollReveal>
+        {/* <ScrollReveal>
           <p className="text-gray-700 mb-6">
             At mõingày, we believe in sharing our passion and knowledge about coffee. Our workshops are designed for
             coffee enthusiasts of all levels, from beginners to advanced brewers. Join us to learn about different
@@ -99,8 +106,8 @@ export default function Workshop() {
             <p className="font-semibold">Email: workshop@moingay.com</p>
             <p className="font-semibold">Phone: +84 123 456 789</p>
           </div>
-        </ScrollReveal>
+        </ScrollReveal> */}
       </div>
     </div>
-  )
+  );
 }

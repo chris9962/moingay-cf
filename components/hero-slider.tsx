@@ -13,19 +13,19 @@ import "swiper/css/pagination";
 const slides = [
   {
     id: 1,
-    image: "/hero/1.jpg",
+    image: "/hero/1.jpeg",
     title: "",
     location: "",
   },
   {
     id: 2,
-    image: "/hero/2.jpg",
+    image: "/hero/2.jpeg",
     title: "",
     location: "",
   },
   {
     id: 3,
-    image: "/hero/3.jpg",
+    image: "/hero/3.jpeg",
     title: "",
     location: "",
   },
