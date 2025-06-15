@@ -7,7 +7,7 @@ interface ProductState {
   products: ProductWithCategories[];
   categories: Category[];
   selectedProduct: ProductWithCategories | null;
-
+  isFechedAllProducts: boolean;
   // UI state
   loading: boolean;
   error: string | null;
@@ -36,6 +36,9 @@ interface ProductState {
   ) => void;
   setViewMode: (mode: "grid" | "table") => void;
   setSelectedProduct: (product: ProductWithCategories | null) => void;
+
+  // Extra action for fetching all public products
+  getAllPublicProducts: () => Promise<void>;
 
   // CRUD operations
   createProduct: (
@@ -78,7 +81,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     totalPages: 0,
   },
   viewMode: "grid",
-
+  isFechedAllProducts: false,
   // Actions
   fetchProducts: async (isUseAdminApi = false) => {
     set({ loading: true, error: null });
@@ -451,6 +454,42 @@ export const useProductStore = create<ProductState>((set, get) => ({
       useToastStore.getState().addToast({
         type: "error",
         message: `Lỗi khi xóa danh mục: ${errorMessage}`,
+      });
+    }
+  },
+  getAllPublicProducts: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await fetch("/api/products/all");
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.message || "Failed to fetch public products");
+      }
+
+      set((state) => ({
+        products: result.data.data,
+        loading: false,
+        error: null,
+        pagination: {
+          ...state.pagination,
+          totalCount: result.data.length,
+          totalPages: 1,
+        },
+        isFechedAllProducts: true,
+      }));
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch public products";
+      set({
+        loading: false,
+        error: errorMessage,
+        isFechedAllProducts: false,
+      });
+      useToastStore.getState().addToast({
+        type: "error",
+        message: errorMessage,
       });
     }
   },

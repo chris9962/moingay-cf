@@ -1,12 +1,10 @@
-import Image from "next/image";
 import PageTitle from "@/components/page-title";
-import ScrollReveal from "@/components/scroll-reveal";
+import Image from "next/image";
 
 export default function Workshop() {
   return (
-    <div className="flex-1 h-[500px]">
-      <PageTitle title="Coming Soon..." />
-
+    <div className="flex-1">
+      <PageTitle title="Workshop" />
       {/* <ScrollReveal>
         <div className="relative w-full h-[400px] mb-10">
           <Image
@@ -18,22 +16,25 @@ export default function Workshop() {
         </div>
       </ScrollReveal> */}
 
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="container mx-auto px-4 py-12">
         {/* <ScrollReveal>
           <h2 className="text-2xl font-semibold mb-4 text-center my-10">
             Coming Soon...
           </h2>
         </ScrollReveal> */}
 
-        {/* <ScrollReveal>
-          <p className="text-gray-700 mb-6">
-            At mõingày, we believe in sharing our passion and knowledge about coffee. Our workshops are designed for
-            coffee enthusiasts of all levels, from beginners to advanced brewers. Join us to learn about different
-            brewing methods, coffee origins, and the art of creating the perfect cup.
-          </p>
-        </ScrollReveal>
+        <p>
+          Với từng nội dung workshop hoa tại mỗi ngày, chúng tôi kết hợp song
+          song giữa các kỹ thuật trong từng chủ đề hoa, đồng thời mong muốn đem
+          lại cho bạn những trải nghiệm tự do trong cách thể hiện, sáng tạo với
+          nguyên vật liệu từ hoa lá cỏ. để mỗi buổi workshop, bạn có thể làm bạn
+          với hoa, làm bạn với mình và làm bạn với những điều quanh bạn. các nội
+          dung workshop hoa tại mỗi ngày hiện có từ cơ bản đến nâng cao và các
+          khóa học từ ngắn hạn đến dài hạn. chúng tôi rất vui lòng để tư vấn chi
+          tiết theo từng nhu cầu của bạn.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
           <ScrollReveal direction="right">
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold mb-3">Beginner's Workshop</h3>
@@ -106,7 +107,7 @@ export default function Workshop() {
             <p className="font-semibold">Email: workshop@moingay.com</p>
             <p className="font-semibold">Phone: +84 123 456 789</p>
           </div>
-        </ScrollReveal> */}
+        </ScrollReveal>  */}
       </div>
     </div>
   );

@@ -53,7 +53,6 @@ const CoffeeGallery = () => {
         <h2 className="text-2xl font-bold text-center mb-10">
           Gặp gỡ bạn - mình
         </h2>
-
         <div className="relative">
           <Swiper
             modules={[Navigation, Autoplay]}
@@ -140,6 +139,15 @@ const CoffeeGallery = () => {
             <ChevronRight size={24} />
           </button>
         </div>
+        <p className="mt-8">
+          Tại mỗingày dần dà đã có những dáng hình thân quen thường xuyên lui
+          tới, chúng tôi thật lấy làm biết ơn và vui mừng vì khi cần một nơi để
+          ngồi lại, bạn đã chọn ghé vào con hẻm nhỏ và chọn cho mình một góc
+          trong không gian của quán cafe ngay góc ngã tư,đi qua vài sự thay đổi,
+          đến nay cũng đã gom góp được kha khá những khoảnh khắc mà bạn ghé thăm
+          nhà. chúng tôi xin phép được kể về đôi lần mà bạn chọn mỗingày là chốn
+          để dừng chân. Vui đón bạn, những ngày này và cả những ngày sau nữa..
+        </p>
       </div>
     </section>
   );

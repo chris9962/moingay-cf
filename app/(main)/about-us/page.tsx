@@ -15,13 +15,13 @@ export default function AboutUs() {
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4"> Câu chuyện</h2>
               <p className="text-gray-700">
-                mỗingày là thương hiệu tại Cần Thơ, Việt Nam. Với tâm niệm mang
-                đến niềm vui và gắn kết cảm xúc thông qua chất liệu từ sự kết
-                nối với trải nghiệm đời sống thường nhật. mỗingày khởi đầu là mô
-                hình tiệm hoa, kế đến là không gian café kết hợp tiệm hoa, từ
-                năm 2021. Dù là ở dáng hình nào, kim chỉ nam xuyên suốt cho câu
-                chuyện thương hiệu từ mỗingày đã, đang và sẽ luôn mang đến những
-                điều dễ chịu, gần gũi và thuần lành.
+                <strong>mỗingày</strong> là thương hiệu tại Cần Thơ, Việt Nam.
+                Với tâm niệm mang đến niềm vui và gắn kết cảm xúc thông qua chất
+                liệu từ sự kết nối với trải nghiệm đời sống thường nhật. mỗingày
+                khởi đầu là mô hình tiệm hoa, kế đến là không gian café kết hợp
+                tiệm hoa, từ năm 2021. Dù là ở dáng hình nào, kim chỉ nam xuyên
+                suốt cho câu chuyện thương hiệu từ mỗingày đã, đang và sẽ luôn
+                mang đến những điều dễ chịu, gần gũi và thuần lành.
               </p>
             </div>
           </ScrollReveal>
@@ -31,26 +31,28 @@ export default function AboutUs() {
               <h2 className="text-2xl font-bold mb-4">Tinh thần </h2>
               <p className="text-gray-700">
                 “mỗi ngày cùng chọn một niềm vui “ – câu hát của cố nhạc sĩ
-                Trịnh Công Sơn đã định hình nên phong cách của mỗingày, với mong
-                muốn khi ở tại mỗingày, bạn sẽ luôn có thể gọi tên được niềm vui
-                cho riêng mình. mỗingày.homespace homespace là nơi mở ra câu
-                chuyện trên phông nền chung với khởi đầu vào năm 2021, là một
-                tiệm hoa. Tại homespace, mỗingày gửi đến khách hàng những câu
-                chuyện, những khoảnh khắc, những bài học được góp nhặt thông qua
-                trải nghiệm cá nhân trong đời sống thường nhật, để trải nghiệm
-                về hoa cỏ không chỉ dừng lại ở hoa cỏ, mà như là một lời thủ thỉ
-                về những điều xung quanh. homespace là nơi giao lưu, mở rộng và
-                kết nối rất nhiều con người,cuộc gặp để tạo tiền đề cho không
-                gian tại mỗingày.atelier sau này. mỗingày.atelier atelier là nơi
-                tiếp nối hành trình của homespace, bước ngoặt mới và là cột mốc
-                trong câu chuyện tinh thần từ mỗingày. Là mô hình tiệm hoa kết
-                hợp không gian thưởng thức các món thức uống được và tổ chức
-                workshop định kỳ. atelier chú trọng đến giá trị cảm xúc và chất
-                lượng trong từng sản phẩm. tại atelier, mỗi thức uống đều gợi
+                Trịnh Công Sơn đã định hình nên phong cách của chúng tôi.
+                <br />
+                Với mong muốn khi ở tại mỗingày, bạn sẽ luôn có thể gọi tên được
+                niềm vui cho riêng mình. Tại mỗingày, chúng tôi có những cột mốc
+                đánh dấu sự chuyển mình rõ rệt, Khởi đầu là mỗingày.homespace,
+                tiệm hoa là nơi mở ra câu chuyện với tinh thần chung. Tại
+                homespace, chúng tôi đặt dấu ấn thông qua việc gửi đến khách
+                hàng những câu chuyện, những khoảnh khắc trong đời sống thường
+                nhật thông qua trải nghiệm về Hoa cỏ. homespace là nơi giao lưu,
+                mở rộng và kết nối rất nhiều con người và cuộc gặp để tạo tiền
+                đề cho không gian tại mỗingày.atelier sau này.
+                <br />
+                <br />
+                mỗingày.atelier là nơi tiếp nối hành trình, là bước ngoặt mới và
+                là cột mốc trong câu chuyện tinh thần từ mỗingày. Atelier được
+                biết đến là mô hình quán cafe kết hợp tiệm hoa và là nơi tổ chức
+                workshop định kỳ. Tại đây, chúng tôi chú trọng đến giá trị cảm
+                xúc và chất lượng trong từng sản phẩm, nơi mỗi thức uống đều gợi
                 lên một trạng thái, giá trị, nếp sống mong muốn được ôm ấp và
-                gìn giữ. Nhìn chung, atelier mang đến không gian để mỗi trải
-                nghiệm đều quay về với sự kết nối tự thân, gần gũi và sự kết nối
-                với những điều đẹp đẽ xung quanh.
+                gìn giữ. Chúng tôi tâm niệm mang đến không gian để mỗi trải
+                nghiệm đều quay về với sự kết nối tự thân và sự kết nối với
+                những điều đẹp đẽ xung quanh.
               </p>
             </div>
           </ScrollReveal>
