@@ -62,10 +62,10 @@ export default function AboutUs() {
               <h2 className="text-2xl font-bold mb-4">Giá trị </h2>
               <p className="text-gray-700">
                 mỗingày ấp ủ là một chốn dừng chân, là một nơi thân gần để khi
-                bạn cần nơi để quay về hay một điểm tựa giữa những điều mông
-                lung bên ngoài, bạn hoàn toàn có thể tin tưởng và cảm thấy an
-                toàn. mỗingày, vì vậy không giới hạn chỉ là một tiệm hoa hay một
-                quán café,.. mà dù trong bất kỳ dáng hình nào, mỗingày đều ươm
+                cần nơi để quay về hay một điểm tựa giữa những mông lung bên
+                ngoài, bạn hoàn toàn có thể tin tưởng và cảm thấy an toàn.
+                mỗingày, vì vậy không giới hạn chỉ là một tiệm hoa hay một quán
+                café,.. mà dù trong bất kỳ dáng hình nào, chúng tôi đều ươm
                 những hạt giống thuần lành và chân thành trong từng bước đi.
               </p>
             </div>

@@ -86,6 +86,14 @@ const Footer = () => {
               >
                 Add on
               </Link>
+              <h3 className="text-xl font-bold mb-4">
+                <Link
+                  href="#"
+                  className="block hover:text-primary transition-colors"
+                >
+                  Dilivery Service
+                </Link>
+              </h3>
             </div>
           </div>
 
