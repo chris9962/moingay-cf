@@ -2,20 +2,24 @@ import { Facebook, Instagram } from "lucide-react"
 import type { SVGProps } from "react"
 
 const ZaloIcon = (props: SVGProps<SVGSVGElement>) => (
-    xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-    id="svg"
-    version="1.1"
-    width="400"
-    height="400"
-    viewBox="0 0 400 400"
-    <g id="svgg">
-      <path id="path0" d="" stroke="none" fill="#040404" fillRule="evenodd" />
-      <path id="path1" d="" stroke="none" fill="#080404" fillRule="evenodd" />
-      <path id="path2" d="" stroke="none" fill="#080404" fillRule="evenodd" />
-      <path id="path3" d="" stroke="none" fill="#080404" fillRule="evenodd" />
-      <path id="path4" d="" stroke="none" fill="#080404" fillRule="evenodd" />
-    </g>
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    <circle cx={12} cy={12} r={10} />
+    <text
+      x={12}
+      y={16}
+      textAnchor="middle"
+      fontFamily="sans-serif"
+      fontSize={6}
+      fill="currentColor"
+      stroke="none"
+    >
+      Zalo
+    </text>
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Facebook"
