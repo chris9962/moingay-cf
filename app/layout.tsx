@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { StoreInitializer } from "@/components/store-initializer"
+import Socials from "@/components/socials"
 import "./globals.css"
 import { hvFlorentino, roboto } from "./fonts"
 import "swiper/css"
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`${hvFlorentino.variable} ${roboto.variable}`}>
         <StoreInitializer />
         {children}
+        <Socials />
       </body>
     </html>
   )
