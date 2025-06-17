@@ -20,7 +20,7 @@ const ZaloIcon = (props: SVGProps<SVGSVGElement>) => (
     >
       Zalo
     </text>
-        target="_blank"
+);
         rel="noopener noreferrer"
         aria-label="Facebook"
         className="flex h-8 w-8 items-center justify-center rounded-full bg-primary p-1.5 text-white hover:bg-primary/90"
