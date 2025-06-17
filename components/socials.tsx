@@ -2,7 +2,16 @@ import { Facebook, Instagram } from "lucide-react"
 import type { SVGProps } from "react"
 
 const ZaloIcon = (props: SVGProps<SVGSVGElement>) => (
- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg" version="1.1" width="400" height="400" viewBox="0, 0, 400,400"><g id="svgg"><path id="path0" d="" stroke="none" fill="#040404" fill-rule="evenodd"/><path id="path1" d="" stroke="none" fill="#080404" fill-rule="evenodd"/><path id="path2" d="" stroke="none" fill="#080404" fill-rule="evenodd"/><path id="path3" d="" stroke="none" fill="#080404" fill-rule="evenodd"/><path id="path4" d="" stroke="none" fill="#080404" fill-rule="evenodd"/></g></svg>
+    <text
+      x="12"
+      y="13"
+      fontSize="6"
+      textAnchor="middle"
+      fontWeight="bold"
+      dominantBaseline="middle"
+    >
+      Zalo
+    </text>
 )
 
 export default function Socials() {
