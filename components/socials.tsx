@@ -11,8 +11,18 @@ const ZaloIcon = (props: SVGProps<SVGSVGElement>) => (
     strokeLinejoin="round"
     {...props}
   >
-    <path d="M4 3h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H7l-5 5V4a1 1 0 0 1 1-1z" />
-    <path d="M9 8h6l-6 6h6" />
+    <circle cx="12" cy="12" r="10" />
+    <text
+      x="12"
+      y="16"
+      textAnchor="middle"
+      fontSize="6"
+      fontFamily="inherit"
+      fill="currentColor"
+      stroke="none"
+    >
+      Zalo
+    </text>
   </svg>
 )
 
