@@ -4,26 +4,19 @@ import type { SVGProps } from "react"
 function ZaloIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 400 400"
+      width="100%"
+      height="100%"
       {...props}
-      <circle cx={12} cy={12} r={11} />
-      <text
-        x="50%"
-        y="50%"
-        dominantBaseline="middle"
-        textAnchor="middle"
-        fontFamily="sans-serif"
-        fontSize={6}
-        fill="currentColor"
-        stroke="none"
-      >
-        Zalo
-      </text>
+      <g>
+        <path id="path0" d="" stroke="none" fill="#040404" fillRule="evenodd" />
+        <path id="path1" d="" stroke="none" fill="#080404" fillRule="evenodd" />
+        <path id="path2" d="" stroke="none" fill="#080404" fillRule="evenodd" />
+        <path id="path3" d="" stroke="none" fill="#080404" fillRule="evenodd" />
+        <path id="path4" d="" stroke="none" fill="#080404" fillRule="evenodd" />
+      </g>
     </svg>
   )
 }
