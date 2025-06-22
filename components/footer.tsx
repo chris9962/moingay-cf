@@ -22,7 +22,7 @@ const Footer = () => {
               Địa chỉ: 75/40/4 đường Trần Phú, cái khế, ninh kiều, cần thơ
             </a>
 
-            <div className="pt-4 space-y-2">
+            <div className="space-y-2">
               <Link
                 href="#"
                 className="block hover:text-primary transition-colors"
