@@ -8,8 +8,19 @@ const Footer = () => {
           {/* Left Column - Contact & Policies */}
           <div className="space-y-4">
             <p>Thời gian hoạt động: 07:30-21:30</p>
-            <p>Hotline 763558010</p>
-            <p>Địa chỉ: 75/40/4 đường Trần Phú, cái khế, ninh kiều, cần thơ</p>
+            <a
+              href="tel:763558010"
+              className="block hover:text-primary transition-colors"
+            >
+              Hotline 763558010
+            </a>
+            <a
+              href="https://maps.app.goo.gl/6T35FgxMaGXJkGas8"
+              target="_blank"
+              className="block hover:text-primary transition-colors"
+            >
+              Địa chỉ: 75/40/4 đường Trần Phú, cái khế, ninh kiều, cần thơ
+            </a>
 
             <div className="pt-4 space-y-2">
               <Link
@@ -87,12 +98,12 @@ const Footer = () => {
                 Add on
               </Link>
               <h3 className="text-xl font-bold mb-4">
-                <Link
-                  href="#"
+                <a
+                  href="tel:763558010"
                   className="block hover:text-primary transition-colors"
                 >
-                  Dilivery Service
-                </Link>
+                  Delivery Service
+                </a>
               </h3>
             </div>
           </div>

@@ -46,7 +46,7 @@ export const products = [
     image: "/iced-coffee-pour.png",
     category: "drinks",
     detailHtml: `
-      <p>Cà phê đá đặc trưng của mõingày, được pha từ hạt cà phê rang xay tại chỗ.</p>
+      <p>Cà phê đá đặc trưng của mỗingày, được pha từ hạt cà phê rang xay tại chỗ.</p>
       <ul>
         <li>Thành phần: Cà phê nguyên chất, đường</li>
         <li>Phục vụ với đá viên trong ly thủy tinh</li>
@@ -140,16 +140,16 @@ export const products = [
       <p>Có thể yêu cầu thêm kem tươi hoặc kem đánh.</p>
     `,
   },
-]
+];
 
 // Function to get a product by ID
 export const getProductById = (id: number) => {
-  return products.find((product) => product.id === id) || null
-}
+  return products.find((product) => product.id === id) || null;
+};
 
 // Mock function to simulate API call
 export const fetchProductById = async (id: number) => {
   // Simulate network delay
-  await new Promise((resolve) => setTimeout(resolve, 800))
-  return getProductById(id)
-}
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  return getProductById(id);
+};

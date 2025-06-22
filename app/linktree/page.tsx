@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
 
-import { Instagram, TwitterIcon as TikTok, Youtube } from "lucide-react";
+import Socials from "@/components/socials";
 
 export default function StickyWicksPage() {
   return (
@@ -16,11 +18,11 @@ export default function StickyWicksPage() {
         <div className="flex flex-col items-center text-center">
           <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-[#D4A84B]">
             <h2 className="font-hv-florentino text-2xl font-bold tracking-wider text-white">
-              mõingày
+              mỗingày
             </h2>
           </div>
 
-          <h1 className="mb-2 text-4xl font-bold">mõingày</h1>
+          <h1 className="mb-2 text-4xl font-bold ">mỗingày</h1>
           <p className="mb-1 text-xl opacity-90">Coffee Shop</p>
           <p className="text-lg opacity-80">Est. 2023</p>
         </div>
@@ -28,52 +30,27 @@ export default function StickyWicksPage() {
           {/* Navigation buttons */}
           <div className="my-8 flex w-full flex-col gap-4">
             <Link
-              href="/sticky-wicks/cakes"
+              href="#"
               className="w-full rounded-full bg-white py-4 text-center text-xl font-medium text-[#333333] transition-all hover:bg-opacity-90"
             >
-              Cakes and pastry
+              Tinh thần
             </Link>
             <Link
-              href="/sticky-wicks/merch"
+              href="#"
               className="w-full rounded-full bg-white py-4 text-center text-xl font-medium text-[#333333] transition-all hover:bg-opacity-90"
             >
-              Shop merch
+              Giá trị
             </Link>
             <Link
-              href="/sticky-wicks/about"
+              href="#"
               className="w-full rounded-full bg-white py-4 text-center text-xl font-medium text-[#333333] transition-all hover:bg-opacity-90"
             >
-              About us
+              Tiếp bước
             </Link>
           </div>
 
           {/* Social media icons */}
-          <div className="flex gap-8">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md p-2 transition-all hover:bg-white/10"
-            >
-              <Instagram size={32} />
-            </a>
-            <a
-              href="https://tiktok.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md p-2 transition-all hover:bg-white/10"
-            >
-              <TikTok size={32} />
-            </a>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md p-2 transition-all hover:bg-white/10"
-            >
-              <Youtube size={32} />
-            </a>
-          </div>
+          <Socials className="flex gap-4" />
         </div>
       </div>
     </div>

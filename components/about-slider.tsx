@@ -14,17 +14,17 @@ const aboutImages = [
   {
     id: 2,
     image: "/aboutus/2.jpg",
-    alt: "mõingày cafe interior with plants",
+    alt: "mỗingày cafe interior with plants",
   },
   {
     id: 1,
     image: "/aboutus/1.jpg",
-    alt: "mõingày cafe exterior",
+    alt: "mỗingày cafe exterior",
   },
   {
     id: 3,
     image: "/aboutus/31.jpg",
-    alt: "mõingày cafe entrance",
+    alt: "mỗingày cafe entrance",
   },
 ];
 

@@ -11,14 +11,18 @@ const StorySection = () => {
             {/* <h3 className="text-primary text-lg uppercase tracking-wide">
               THE STORY
             </h3> */}
-            <h2 className="text-3xl font-bold mt-2 mb-4">mỗingày</h2>
+            <h2 className="text-3xl font-bold mt-2 mb-4">
+              <span className="font-bold text-black">mỗingày</span>
+            </h2>
             <p className="text-gray-700 mb-6">
-              mỗingày là thương hiệu tại Cần Thơ, Việt Nam. Khởi đầu với mô hình
-              tiệm hoa, sau đó là sự mở rộng thành không gian cafe kết hợp tiệm
-              hoa, được sáng lập vào cuối 2021. Với tâm niệm mang đến niềm vui
-              và gắn kết giá trị cảm xúc đến mọi người thông qua chất liệu từ sự
-              kết nối với đời sống thường nhật và trải nghiệm tinh thần. Đó là
-              kim chỉ nam xuyên suốt cho câu chuyện thương hiệu từ mỗingày.
+              <span className="font-bold text-black">mỗingày</span> là thương
+              hiệu tại Cần Thơ, Việt Nam. Khởi đầu với mô hình tiệm hoa, sau đó
+              là sự mở rộng thành không gian cafe kết hợp tiệm hoa, được sáng
+              lập vào cuối 2021. Với tâm niệm mang đến niềm vui và gắn kết giá
+              trị cảm xúc đến mọi người thông qua chất liệu từ sự kết nối với
+              đời sống thường nhật và trải nghiệm tinh thần. Đó là kim chỉ nam
+              xuyên suốt cho câu chuyện thương hiệu từ{" "}
+              <span className="font-bold text-black">mỗingày</span>.
             </p>
             <Link
               href="/about-us"
@@ -34,7 +38,7 @@ const StorySection = () => {
             <div className="relative h-60 rounded-lg overflow-hidden">
               <Image
                 src="/aboutus/1.jpg"
-                alt="mõingày cafe exterior"
+                alt="mỗingày cafe exterior"
                 fill
                 className="object-cover"
               />
@@ -42,7 +46,7 @@ const StorySection = () => {
             <div className="relative h-60 rounded-lg overflow-hidden">
               <Image
                 src="/aboutus/2.jpg"
-                alt="mõingày cafe entrance"
+                alt="mỗingày cafe entrance"
                 fill
                 className="object-cover"
               />
@@ -50,7 +54,7 @@ const StorySection = () => {
             <div className="relative h-60 rounded-lg overflow-hidden">
               <Image
                 src="/aboutus/31.jpg"
-                alt="mõingày cafe interior"
+                alt="mỗingày cafe interior"
                 fill
                 className="object-cover"
               />

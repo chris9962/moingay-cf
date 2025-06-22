@@ -9,7 +9,7 @@ export default function Workshop() {
         <div className="relative w-full h-[400px] mb-10">
           <Image
             src="/barista-workshop.png"
-            alt="mõingày workshop"
+            alt="mỗingày workshop"
             fill
             className="object-cover rounded-lg"
           />

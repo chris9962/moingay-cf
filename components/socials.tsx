@@ -1,5 +1,6 @@
-import { Facebook, Instagram } from "lucide-react"
-import type { SVGProps } from "react"
+import { Facebook, Instagram } from "lucide-react";
+import Image from "next/image";
+import type { SVGProps } from "react";
 
 const ZaloIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -20,26 +21,38 @@ const ZaloIcon = (props: SVGProps<SVGSVGElement>) => (
       <path id="path4" d="" stroke="none" fill="#080404" fillRule="evenodd" />
     </g>
   </svg>
-)
+);
 
-export default function Socials() {
+export default function Socials({ className }: { className?: string }) {
   return (
-    <div className="fixed bottom-20 right-4 z-50 flex flex-col items-center space-y-2">
-      <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="rounded-full bg-primary p-3 text-white hover:bg-primary/90">
-        <Facebook className="h-5 w-5" />
+    <div className={className}>
+      <a
+        href="https://www.facebook.com/Moingayatelier?mibextid=LQQJ4d.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        className="rounded-full bg-primary p-2 w-10 h-10 text-white hover:bg-primary/90 flex items-center justify-center"
+      >
+        <Facebook className="h-6 w-6" />
       </a>
       <a
         href="#"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Zalo"
-        className="rounded-full bg-blue-500 p-3 text-white hover:bg-blue-600"
+        className="rounded-full bg-primary p-2 w-10 h-10 text-white hover:bg-primary/90 flex items-center justify-center"
       >
-        <ZaloIcon className="h-5 w-5" />
+        <Image src="/zalo.webp" alt="Zalo" width={24} height={24} />
       </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="rounded-full bg-primary p-3 text-white hover:bg-primary/90">
-        <Instagram className="h-5 w-5" />
+      <a
+        href="https://www.instagram.com/moingay.atelier?utm_source=ig_web_button_share_sheet&igsh=MWYzYmVkbmpjbWRlZw=="
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        className="rounded-full bg-primary p-2 w-10 h-10 text-white hover:bg-primary/90 flex items-center justify-center"
+      >
+        <Instagram className="h-6 w-6" />
       </a>
     </div>
-  )
+  );
 }
