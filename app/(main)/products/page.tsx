@@ -3,13 +3,14 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, Eye } from "lucide-react";
+import { Search, Eye, ShoppingCart } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import PageTitle from "@/components/page-title";
 import { ProductGridSkeleton } from "@/components/product-skeleton";
 import ScrollReveal from "@/components/scroll-reveal";
 import ProductDetailModal from "@/components/product-detail-modal";
+import AddToCartModal from "@/components/add-to-cart-modal";
 import { useProductStore } from "@/lib/product-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,9 @@ const HIDE_CATEGORIES_ID = [4, 7, 8, 9];
 const SORT_CATEGORIES_ID = [3, 11, 12, 10];
 export default function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddToCartModalOpen, setIsAddToCartModalOpen] = useState(false);
+  const [selectedProductForCart, setSelectedProductForCart] =
+    useState<any>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialSearch = searchParams.get("search") || "";
@@ -201,6 +205,16 @@ export default function Products() {
     setSelectedProduct(null);
   };
 
+  const handleAddToCart = (product: (typeof products)[0]) => {
+    setSelectedProductForCart(product);
+    setIsAddToCartModalOpen(true);
+  };
+
+  const closeAddToCartModal = () => {
+    setIsAddToCartModalOpen(false);
+    setSelectedProductForCart(null);
+  };
+
   const handleSearch = (value: string) => {
     setSearchValue(value);
     updateURLParams(value, categorySelected);
@@ -331,13 +345,22 @@ export default function Products() {
                                   className="object-cover"
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                  <button
-                                    onClick={() => openProductDetail(product)}
-                                    className="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform"
-                                    aria-label={`View details for ${product.name}`}
-                                  >
-                                    <Eye size={20} />
-                                  </button>
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => openProductDetail(product)}
+                                      className="bg-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform"
+                                      aria-label={`View details for ${product.name}`}
+                                    >
+                                      <Eye size={20} />
+                                    </button>
+                                    <button
+                                      onClick={() => handleAddToCart(product)}
+                                      className="bg-primary text-white p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform"
+                                      aria-label={`Add ${product.name} to cart`}
+                                    >
+                                      <ShoppingCart size={20} />
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                               <div className="p-4">
@@ -352,9 +375,19 @@ export default function Products() {
                                 <p className="text-gray-600 mb-2">
                                   {product.subtitle}
                                 </p>
-                                <p className="text-primary font-bold price-text">
-                                  {product.price.toLocaleString("vi-VN")}đ
-                                </p>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-primary font-bold price-text">
+                                    {product.price.toLocaleString("vi-VN")}đ
+                                  </p>
+                                  <Button
+                                    onClick={() => handleAddToCart(product)}
+                                    size="sm"
+                                    className="ml-2"
+                                  >
+                                    <ShoppingCart size={16} className="mr-1" />
+                                    Thêm
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </ScrollReveal>
@@ -373,6 +406,11 @@ export default function Products() {
           isOpen={isModalOpen}
           onClose={closeModal}
           product={selectedProduct}
+        />
+        <AddToCartModal
+          isOpen={isAddToCartModalOpen}
+          onClose={closeAddToCartModal}
+          product={selectedProductForCart}
         />
       </div>
     </div>

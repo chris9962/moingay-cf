@@ -28,24 +28,24 @@ export default function Delivery() {
           </div>
           <p className="text-gray-600 mb-6">
             Tụi mình sẽ bắt đầu gửi đơn ship đi từ{" "}
-            <span className="font-semibold text-primary">14.07.2025</span> trong
+            <span className="font-semibold text-primary">21.07.2025</span> trong
             ba khung giờ cố định:
           </p>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-orange-600 mb-2">
+              <div className="text-2xl font-bold text-orange-600 mb-2 price-text">
                 09:00 - 10:30
               </div>
               <div className="text-sm text-orange-700">Khung giờ sáng</div>
             </div>
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600 mb-2">
+              <div className="text-2xl font-bold text-blue-600 mb-2 price-text">
                 15:00 - 16:30
               </div>
               <div className="text-sm text-blue-700">Khung giờ chiều</div>
             </div>
             <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600 mb-2">
+              <div className="text-2xl font-bold text-purple-600 mb-2 price-text">
                 17:30 - 18:30
               </div>
               <div className="text-sm text-purple-700">Khung giờ tối</div>
@@ -76,7 +76,7 @@ export default function Delivery() {
               <div>
                 <Link
                   href="tel:0763558010"
-                  className="font-semibold text-gray-800"
+                  className="font-semibold text-gray-800 price-text"
                 >
                   0763558010
                 </Link>
@@ -90,7 +90,7 @@ export default function Delivery() {
               <div>
                 <Link
                   href="tel:0394049489"
-                  className="font-semibold text-gray-800"
+                  className="font-semibold text-gray-800 price-text"
                 >
                   0394049489
                 </Link>
@@ -127,11 +127,14 @@ export default function Delivery() {
                 Voucher 10%
               </div>
               <p className="text-sm text-gray-700 mb-2">
-                Với hoá đơn từ <span className="font-bold">88.000đ</span> khi
-                dùng món tại chỗ
+                Với hoá đơn từ{" "}
+                <span className="font-bold price-text">
+                  {(88000).toLocaleString("vi-VN")}đ
+                </span>{" "}
+                khi dùng món tại chỗ
               </p>
-              <div className="text-xs text-pink-600 font-medium">
-                📅 Từ 14.7 - 31.7
+              <div className="text-xs text-pink-600 font-medium price-text">
+                📅 Từ 21.7 - 31.7
               </div>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-6">
@@ -187,7 +190,10 @@ export default function Delivery() {
                   </span>
                 </div>
                 <p className="text-sm text-gray-700">
-                  Phí ship: <span className="font-bold">17.000đ</span>
+                  Phí ship:{" "}
+                  <span className="font-bold price-text">
+                    {(17000).toLocaleString("vi-VN")}đ
+                  </span>
                 </p>
               </div>
               <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
@@ -198,10 +204,17 @@ export default function Delivery() {
                   </span>
                 </div>
                 <p className="text-sm text-gray-700">
-                  Phí ship: <span className="font-bold">20.000đ</span>
+                  Phí ship:{" "}
+                  <span className="font-bold price-text">
+                    {(20000).toLocaleString("vi-VN")}đ
+                  </span>
                   <br />
                   <span className="text-xs text-orange-600">
-                    + 5.000đ/km phát sinh
+                    +{" "}
+                    <span className="price-text">
+                      {(5000).toLocaleString("vi-VN")}đ
+                    </span>
+                    /km phát sinh
                   </span>
                 </p>
               </div>
@@ -217,6 +230,70 @@ export default function Delivery() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Combo Packages */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mt-12">
+          <div className="flex items-center gap-3 mb-6">
+            <Gift className="text-primary" size={28} />
+            <h3 className="text-2xl font-bold text-gray-800">Combo Packages</h3>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6 text-center">
+              <div className="text-2xl mb-3">☕</div>
+              <div className="text-orange-600 font-semibold mb-3 text-xl uppercase">
+                Ấm áp
+              </div>
+              <p className="text-gray-700 mb-3">
+                <span className="font-bold text-lg">3 ly/tuần</span>
+                <br />
+                <span className="text-sm">+ ship</span>
+              </p>
+              <div className="text-2xl font-bold text-orange-600 price-text">
+                chỉ từ {(179000).toLocaleString("vi-VN")}đ
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-pink-50 to-pink-100 rounded-lg p-6 text-center">
+              <div className="text-2xl mb-3">🍯</div>
+              <div className="text-pink-600 font-semibold mb-3 text-xl uppercase">
+                Ngọt ngào
+              </div>
+              <p className="text-gray-700 mb-3">
+                <span className="font-bold text-lg">5 ly/tuần</span>
+                <br />
+                <span className="text-sm">+ ship</span>
+              </p>
+              <div className="text-2xl font-bold text-pink-600 price-text">
+                chỉ từ {(269000).toLocaleString("vi-VN")}đ
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 text-center">
+              <div className="text-2xl mb-3">💎</div>
+              <div className="text-purple-600 font-semibold mb-3 text-xl uppercase">
+                Trân trọng
+              </div>
+              <p className="text-gray-700 mb-3">
+                <span className="font-bold text-lg">7 ly/tuần</span>
+                <br />
+                <span className="text-sm">+ ship</span>
+              </p>
+              <div className="text-2xl font-bold text-purple-600 price-text">
+                chỉ từ {(289000).toLocaleString("vi-VN")}đ
+              </div>
+            </div>
+          </div>
+
+          {/* Combo Note */}
+          <div className="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
+            <p className="text-sm text-gray-700 mb-2">
+              <strong>📦 Freeship</strong> tối đa trong bán kính 5km.
+            </p>
+            <p className="text-sm text-gray-700">
+              Nếu bạn muốn nhận món sớm (hoặc trễ hơn) khung giờ giao đơn, bạn
+              vui lòng gọi trước cho{" "}
+              <span className="font-semibold text-primary">mỗingày</span> nhé.
+            </p>
           </div>
         </div>
 
