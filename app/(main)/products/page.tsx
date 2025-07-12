@@ -194,7 +194,7 @@ export default function Products() {
                 !categorySelected ? "text-white" : ""
               }`}
             >
-              All Products
+              Tất cả sản phẩm
             </Button>
             {filteredCategories.map((category) => (
               <Button
@@ -214,7 +214,7 @@ export default function Products() {
 
           <div className="relative">
             <Input
-              placeholder="Search products..."
+              placeholder="Tìm kiếm sản phẩm..."
               value={searchValue}
               onChange={(e) => handleSearch(e.target.value)}
               className="pl-10 w-full md:w-64"
