@@ -47,12 +47,16 @@ export default function Products() {
 
   const filteredProducts = useMemo(() => {
     const p = products.filter((product) => {
+      let matchesCategory = true;
+      let matchesSearch = true;
+
       // Filter by category if selected
       if (categorySelected) {
-        return product.categories?.some((c) => c.id === categorySelected);
+        matchesCategory =
+          product.categories?.some((c) => c.id === categorySelected) || false;
       }
 
-      // Filter by search term
+      // Filter by search term if provided
       if (debouncedSearchValue.trim()) {
         const searchTerm = debouncedSearchValue.toLowerCase().trim();
         const matchesName = product.name.toLowerCase().includes(searchTerm);
@@ -61,10 +65,11 @@ export default function Products() {
         const matchesDescription =
           product.description?.toLowerCase().includes(searchTerm) || false;
 
-        return matchesName || matchesSubtitle || matchesDescription;
+        matchesSearch = matchesName || matchesSubtitle || matchesDescription;
       }
 
-      return true;
+      // Both conditions must be true (AND logic)
+      return matchesCategory && matchesSearch;
     });
     // sort by category index
     p.sort((a, b) => {
@@ -91,6 +96,7 @@ export default function Products() {
       // Sort by priority (lower index = higher priority)
       return aPriority - bPriority;
     });
+    console.log(p);
     return p;
   }, [products, categorySelected, debouncedSearchValue]);
 
@@ -156,10 +162,8 @@ export default function Products() {
 
   // Update filters when debounced search value changes
   useEffect(() => {
-    // Clear category selection when searching to show all matching products
-    if (debouncedSearchValue.trim() && categorySelected) {
-      setCategorySelected(null);
-    }
+    // Allow both search and category filters to work together
+    // No need to clear category when searching
   }, [debouncedSearchValue, categorySelected]);
 
   const openProductDetail = (product: (typeof products)[0]) => {

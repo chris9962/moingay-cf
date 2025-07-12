@@ -65,7 +65,6 @@ const Footer = () => {
           {/* Middle Column - Store Menu */}
           <div>
             <h3 className="text-xl font-bold mb-4">CỬA HÀNG</h3>
-            <p className="mb-4">Our Menu</p>
             <div className="space-y-2">
               <Link
                 href="/products?category=3"
