@@ -36,7 +36,7 @@ export default function Socials({ className }: { className?: string }) {
         <Facebook className="h-6 w-6" />
       </a>
       <a
-        href="#"
+        href="https://zalo.me/0394049489"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Zalo"
