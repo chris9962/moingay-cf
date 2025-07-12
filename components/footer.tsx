@@ -98,7 +98,7 @@ const Footer = () => {
               </Link>
               <h3 className="text-xl font-bold mb-4">
                 <a
-                  href="tel:763558010"
+                  href="/delivery"
                   className="block hover:text-primary transition-colors"
                 >
                   Delivery Service
