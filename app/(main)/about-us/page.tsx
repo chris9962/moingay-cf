@@ -12,7 +12,7 @@ export default function AboutUs() {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
-            <div className="mb-8">
+            <div className="mb-8" id="cau-chuyen">
               <h2 className="text-2xl font-bold mb-4"> Câu chuyện</h2>
               <p className="text-gray-700">
                 <span className="font-bold text-black">mỗingày</span> là thương
@@ -30,7 +30,7 @@ export default function AboutUs() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <div className="mb-8">
+            <div className="mb-8" id="tinh-than">
               <h2 className="text-2xl font-bold mb-4">Tinh thần </h2>
               <p className="text-gray-700">
                 “mỗi ngày cùng chọn một niềm vui “ – câu hát của cố nhạc sĩ
@@ -68,7 +68,7 @@ export default function AboutUs() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <div className="mb-8">
+            <div className="mb-8" id="gia-tri">
               <h2 className="text-2xl font-bold mb-4">Giá trị </h2>
               <p className="text-gray-700">
                 <span className="font-bold text-black">mỗingày</span> ấp ủ là
@@ -84,7 +84,7 @@ export default function AboutUs() {
           </ScrollReveal>
 
           <ScrollReveal>
-            <div>
+            <div id="tiep-buoc">
               <h2 className="text-2xl font-bold mb-4">Tiếp bước</h2>
               <p className="text-gray-700">
                 <span className="font-bold text-black">mỗingày</span> vẫn đang

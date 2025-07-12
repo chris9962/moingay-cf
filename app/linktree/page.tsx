@@ -1,8 +1,18 @@
 "use client";
 
 import Link from "next/link";
-
-import Socials from "@/components/socials";
+import { socialsLink } from "@/lib/utils";
+import {
+  Coffee,
+  Menu,
+  Droplets,
+  ShoppingCart,
+  Heart,
+  BookOpen,
+  Clover,
+  Instagram,
+  Flower,
+} from "lucide-react";
 
 export default function StickyWicksPage() {
   return (
@@ -14,43 +24,75 @@ export default function StickyWicksPage() {
 
       {/* Content container */}
       <div className="relative max-w-xl mx-auto z-10 flex min-h-screen flex-col items-center justify-start px-6 py-12">
-        {/* Logo and header section */}
         <div className="flex flex-col items-center text-center">
-          <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-[#D4A84B]">
-            <h2 className="font-hv-florentino text-2xl font-bold tracking-wider text-white">
-              mỗingày
-            </h2>
-          </div>
-
-          <h1 className="mb-2 text-4xl font-bold ">mỗingày</h1>
-          <p className="mb-1 text-xl opacity-90">Coffee Shop</p>
-          <p className="text-lg opacity-80">Est. 2023</p>
+          <h1 className="mb-2 text-4xl font-bold">Mọi thứ bạn cần</h1>
         </div>
         <div className="flex flex-col items-center text-center w-full">
           {/* Navigation buttons */}
           <div className="my-8 flex w-full flex-col gap-4">
             <Link
-              href="#"
-              className="w-full rounded-full bg-white py-4 text-center text-xl font-medium text-[#333333] transition-all hover:bg-opacity-90"
+              href="/about-us"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
             >
-              Tinh thần
+              <Flower className="text-pink-400" size={20} />
+              <span>Tinh thần của mỗingày</span>
             </Link>
             <Link
-              href="#"
-              className="w-full rounded-full bg-white py-4 text-center text-xl font-medium text-[#333333] transition-all hover:bg-opacity-90"
+              href="/products"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
             >
-              Giá trị
+              <Coffee className="text-amber-600" size={20} />
+              <span>Sản phẩm từ mỗingày </span>
             </Link>
             <Link
-              href="#"
-              className="w-full rounded-full bg-white py-4 text-center text-xl font-medium text-[#333333] transition-all hover:bg-opacity-90"
+              href="/workshop"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
             >
-              Tiếp bước
+              <Menu className="text-gray-600" size={20} />
+              <span>Chương trình Workshop</span>
+            </Link>
+            <Link
+              href="/delivery"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
+            >
+              <ShoppingCart className="text-red-500" size={20} />
+              <span>Chương trình Delivery</span>
+            </Link>
+            <Link
+              href="/"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
+            >
+              <Heart className="text-red-400" size={20} />
+              <span>mỗingày.homespace</span>
+            </Link>
+            <Link
+              href={socialsLink.instagramBook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
+            >
+              <BookOpen className="text-gray-600" size={20} />
+              <span>mỗingày đọc sách</span>
+            </Link>
+            <Link
+              href={socialsLink.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
+            >
+              <Clover className="text-green-500" size={20} />
+              <span>mỗingày làm vườn</span>
+            </Link>
+            <Link
+              href={socialsLink.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full rounded-full bg-white py-4 px-6 text-center text-lg font-medium text-[#333333] transition-all hover:bg-opacity-90 flex items-center justify-start gap-4"
+            >
+              <Instagram className="text-pink-500" size={20} />
+              <span>mỗingày thủ thỉ</span>
             </Link>
           </div>
-
-          {/* Social media icons */}
-          <Socials className="flex gap-4" />
         </div>
       </div>
     </div>
