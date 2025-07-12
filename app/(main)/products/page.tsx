@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, Eye } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import PageTitle from "@/components/page-title";
 import { ProductGridSkeleton } from "@/components/product-skeleton";
 import ScrollReveal from "@/components/scroll-reveal";
@@ -18,7 +19,11 @@ const SORT_CATEGORIES_ID = [3, 11, 12, 10];
 export default function Products() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const initialSearch = searchParams.get("search") || "";
+  const initialCategory = searchParams.get("category")
+    ? parseInt(searchParams.get("category")!)
+    : null;
   const [searchValue, setSearchValue] = useState(initialSearch);
 
   const {
@@ -32,7 +37,9 @@ export default function Products() {
     getAllPublicProducts,
     isFechedAllProducts,
   } = useProductStore();
-  const [categorySelected, setCategorySelected] = useState<number | null>(null);
+  const [categorySelected, setCategorySelected] = useState<number | null>(
+    initialCategory
+  );
   // Debounce search value
   const debouncedSearchValue = useDebounce(searchValue, 500);
   const filteredCategories = useMemo(() => {
@@ -160,6 +167,24 @@ export default function Products() {
     }
   }, [getAllPublicProducts, fetchCategories, isFechedAllProducts]);
 
+  // Listen for URL parameter changes (when navigating from external links)
+  useEffect(() => {
+    const currentSearch = searchParams.get("search") || "";
+    const currentCategory = searchParams.get("category")
+      ? parseInt(searchParams.get("category")!)
+      : null;
+
+    // Update search value if URL param changed
+    if (currentSearch !== searchValue) {
+      setSearchValue(currentSearch);
+    }
+
+    // Update category selection if URL param changed
+    if (currentCategory !== categorySelected) {
+      setCategorySelected(currentCategory);
+    }
+  }, [searchParams]);
+
   // Update filters when debounced search value changes
   useEffect(() => {
     // Allow both search and category filters to work together
@@ -178,10 +203,30 @@ export default function Products() {
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
+    updateURLParams(value, categorySelected);
   };
 
   const handleCategoryChange = (categoryId: number | null) => {
     setCategorySelected(categoryId);
+    updateURLParams(searchValue, categoryId);
+  };
+
+  // Function to update URL parameters
+  const updateURLParams = (search: string, category: number | null) => {
+    const params = new URLSearchParams();
+
+    if (search.trim()) {
+      params.set("search", search.trim());
+    }
+
+    if (category !== null) {
+      params.set("category", category.toString());
+    }
+
+    const paramString = params.toString();
+    const newURL = paramString ? `?${paramString}` : window.location.pathname;
+
+    router.push(newURL, { scroll: false });
   };
 
   return (
@@ -247,7 +292,10 @@ export default function Products() {
                 </p>
                 {debouncedSearchValue.trim() && (
                   <button
-                    onClick={() => setSearchValue("")}
+                    onClick={() => {
+                      setSearchValue("");
+                      updateURLParams("", categorySelected);
+                    }}
                     className="text-primary hover:underline"
                   >
                     Clear search
