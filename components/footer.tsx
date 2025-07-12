@@ -68,34 +68,34 @@ const Footer = () => {
             <p className="mb-4">Our Menu</p>
             <div className="space-y-2">
               <Link
-                href="#"
+                href="/products?category=3"
                 className="block hover:text-primary transition-colors"
               >
-                Cà phê
+                Cafe
               </Link>
               <Link
-                href="#"
+                href="/products?category=12"
                 className="block hover:text-primary transition-colors"
               >
                 Matcha
               </Link>
               <Link
-                href="#"
+                href="/products?category=11"
                 className="block hover:text-primary transition-colors"
               >
                 Trà
               </Link>
               <Link
-                href="#"
+                href="/products?category=12"
                 className="block hover:text-primary transition-colors"
               >
                 Sôcôla
               </Link>
               <Link
-                href="#"
+                href="/products?category=10"
                 className="block hover:text-primary transition-colors"
               >
-                Add on
+                Thêm
               </Link>
               <h3 className="text-xl font-bold mb-4">
                 <a
