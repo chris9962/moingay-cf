@@ -15,6 +15,7 @@ interface OrderData {
   address: string;
   items: CartItem[];
   totalPrice: number;
+  orderId: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -27,7 +28,8 @@ export async function POST(request: NextRequest) {
       !orderData.phone1 ||
       !orderData.address ||
       !orderData.items ||
-      orderData.items.length === 0
+      orderData.items.length === 0 ||
+      !orderData.orderId
     ) {
       return NextResponse.json(
         { error: "Missing required fields or empty cart" },
@@ -46,6 +48,7 @@ export async function POST(request: NextRequest) {
     const orderMessage = `
 🛍️ **ĐƠN HÀNG MỚI - GIAO TẬN NHÀ**
 
+🆔 **Mã đơn hàng:** ${orderData.orderId}
 👤 **Khách hàng:** ${orderData.name}
 📞 **SĐT chính:** ${orderData.phone1}
 ${orderData.phone2 ? `📞 **SĐT phụ:** ${orderData.phone2}` : ""}
@@ -56,6 +59,7 @@ ${itemsText}
 
 💰 **Tổng tiền:** ${orderData.totalPrice.toLocaleString("vi-VN")}đ
 🚚 **Loại:** Giao hàng tận nhà
+💳 **Nội dung CK:** ${orderData.name} ${orderData.orderId}
 
 ---
 ⏰ Thời gian đặt: ${new Date().toLocaleString("vi-VN")}

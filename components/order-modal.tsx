@@ -1,8 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, CheckCircle, Minus, Plus, Trash2 } from "lucide-react";
+import {
+  X,
+  CheckCircle,
+  Minus,
+  Plus,
+  Trash2,
+  QrCode,
+  Copy,
+} from "lucide-react";
+// Remove UUID import - we'll use numeric ID instead
 import { Button } from "@/components/ui/button";
+
+// Generate random numeric ID (12-15 digits)
+const generateNumericId = (): string => {
+  const length = Math.floor(Math.random() * 4) + 12; // 12-15 digits
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += Math.floor(Math.random() * 10).toString();
+  }
+  return result;
+};
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,8 +34,9 @@ interface OrderModalProps {
 }
 
 export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderId, setOrderId] = useState<string>("");
   const [userForm, setUserForm] = useState({
     name: "",
     phone1: "",
@@ -52,11 +72,16 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     setIsSubmitting(true);
 
     try {
+      // Generate numeric ID for this order
+      const newOrderId = generateNumericId();
+      setOrderId(newOrderId);
+
       // Prepare order data
       const orderData = {
         ...userForm,
         items: items,
         totalPrice: getTotalPrice(),
+        orderId: newOrderId,
       };
 
       // Call API to send order
@@ -69,8 +94,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       });
 
       if (response.ok) {
-        clearCart();
-        setStep(3);
+        setStep(3); // Go to payment step
       } else {
         alert("Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại.");
       }
@@ -80,6 +104,11 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handlePaymentConfirmation = () => {
+    clearCart();
+    setStep(4); // Go to success step
   };
 
   const resetAndClose = () => {
@@ -123,7 +152,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           <h2 className="text-2xl font-bold text-gray-800">
             {step === 1 && "Giỏ hàng của bạn"}
             {step === 2 && "Thông tin giao hàng"}
-            {step === 3 && "Đặt hàng thành công"}
+            {step === 3 && "Thanh toán"}
+            {step === 4 && "Đặt hàng thành công"}
           </h2>
           <button
             onClick={resetAndClose}
@@ -187,7 +217,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                         >
                           <Minus size={14} />
                         </button>
-                        <span className="w-8 text-center">{item.quantity}</span>
+                        <span className="w-8 text-center price-text">
+                          {item.quantity}
+                        </span>
                         <button
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
@@ -239,10 +271,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
         {step === 2 && (
           <div className="p-6 space-y-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800">
-                Thông tin giao hàng
-              </h3>
-
               <div>
                 <Label htmlFor="name">Tên khách hàng *</Label>
                 <Input
@@ -305,7 +333,8 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
                 {items.map((item) => (
                   <div key={item.id} className="flex justify-between">
                     <span>
-                      {item.name} x{item.quantity}
+                      {item.name} x
+                      <span className="price-text">{item.quantity}</span>
                     </span>
                     <span className="price-text">
                       {(item.price * item.quantity).toLocaleString("vi-VN")}đ
@@ -341,8 +370,92 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
           </div>
         )}
 
-        {/* Step 3: Success */}
+        {/* Step 3: Payment */}
         {step === 3 && (
+          <div className="p-6 space-y-6">
+            {/* QR Code */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-white p-4 rounded-lg shadow-lg border">
+                <img
+                  src={`https://img.vietqr.io/image/TCB-3333333558-compact2.png?amount=${getTotalPrice()}&addInfo=${encodeURIComponent(
+                    `${userForm.name} ${orderId}`
+                  )}`}
+                  alt="QR Code thanh toán"
+                  className="w-64 h-64 object-contain"
+                />
+              </div>
+            </div>
+
+            {/* Payment Details */}
+            <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Ngân hàng:</span>
+                <span className="font-semibold">Techcombank (TCB)</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Số tài khoản:</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold price-text">3333333558</span>
+                  <button
+                    onClick={() => navigator.clipboard.writeText("3333333558")}
+                    className="text-primary hover:text-primary/80"
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Số tiền:</span>
+                <span className="font-semibold text-primary price-text">
+                  {getTotalPrice().toLocaleString("vi-VN")}đ
+                </span>
+              </div>
+              <div className="flex justify-between items-start">
+                <span className="text-sm text-gray-600">Nội dung:</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-right price-text">
+                    {userForm.name} {orderId}
+                  </span>
+                  <button
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `${userForm.name} ${orderId}`
+                      )
+                    }
+                    className="text-primary hover:text-primary/80"
+                  >
+                    <Copy size={16} />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Note */}
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
+              <p className="text-sm text-gray-700">
+                <strong>Lưu ý:</strong> Sau khi chuyển khoản thành công, vui
+                lòng nhấn nút "Đã thanh toán" bên dưới để hoàn tất đơn hàng.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setStep(2)}
+                className="flex-1"
+              >
+                Quay lại
+              </Button>
+              <Button onClick={handlePaymentConfirmation} className="flex-1">
+                Đã thanh toán
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 4: Success */}
+        {step === 4 && (
           <div className="p-6 text-center space-y-6">
             <div className="flex justify-center">
               <CheckCircle className="text-green-500" size={64} />
