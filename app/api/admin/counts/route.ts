@@ -17,10 +17,18 @@ export async function GET() {
 
     if (categoryError) throw categoryError;
 
+    // Get order count
+    const { count: orderCount, error: orderError } = await supabaseAdmin
+      .from("orders")
+      .select("*", { count: "exact", head: true });
+
+    if (orderError) throw orderError;
+
     return successResponse(
       {
         productCount: productCount || 0,
         categoryCount: categoryCount || 0,
+        orderCount: orderCount || 0,
       },
       "Counts retrieved successfully"
     );

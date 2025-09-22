@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import ProductForm from "@/components/product-form"
+import ProductForm from "@/components/product-form";
 
 export default function NewProductPage() {
   return (
@@ -10,5 +10,5 @@ export default function NewProductPage() {
         <ProductForm />
       </div>
     </div>
-  )
+  );
 }

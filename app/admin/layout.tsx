@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
-import { Package, Tag } from "lucide-react";
+import { Package, Tag, ShoppingCart } from "lucide-react";
 import { useAuthStore } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 export default function AdminLayout({
@@ -11,7 +11,11 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [counts, setCounts] = useState({ productCount: 0, categoryCount: 0 });
+  const [counts, setCounts] = useState({
+    productCount: 0,
+    categoryCount: 0,
+    orderCount: 0,
+  });
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
   const { logout, isAuthenticated } = useAuthStore();
@@ -62,9 +66,15 @@ export default function AdminLayout({
       icon: Tag,
       count: counts.categoryCount,
     },
+    {
+      name: "Orders",
+      href: "/admin/orders",
+      icon: ShoppingCart,
+      count: counts.orderCount,
+    },
   ];
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 font-roboto">
       {/* Sidebar */}
       {isAuthenticated && (
         <aside

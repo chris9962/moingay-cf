@@ -1,33 +1,33 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams } from "next/navigation"
-import { useProductStore } from "@/lib/product-store"
-import ProductForm from "@/components/product-form"
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useProductStore } from "@/lib/product-store";
+import ProductForm from "@/components/product-form";
 
 export default function EditProductPage() {
-  const params = useParams()
-  const productId = Number(params.id)
-  const { fetchProducts, products, loading } = useProductStore()
-  const [isLoading, setIsLoading] = useState(true)
+  const params = useParams();
+  const productId = Number(params.id);
+  const { fetchProducts, products, loading } = useProductStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
       if (products.length === 0) {
-        await fetchProducts()
+        await fetchProducts();
       }
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
 
-    loadData()
-  }, [fetchProducts, products.length])
+    loadData();
+  }, [fetchProducts, products.length]);
 
   if (isLoading || loading) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -37,5 +37,5 @@ export default function EditProductPage() {
         <ProductForm productId={productId} />
       </div>
     </div>
-  )
+  );
 }
