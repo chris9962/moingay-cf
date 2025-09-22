@@ -121,7 +121,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
 
       if (response.ok) {
         clearCart();
-        setStep(4); // Go to success step
+        resetAndClose();
       } else {
         alert("Có lỗi xảy ra khi xác nhận thanh toán. Vui lòng thử lại.");
       }
@@ -153,6 +153,9 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
   // Handle click outside
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
+      if (step === 3) {
+        clearCart();
+      }
       resetAndClose();
     }
   };
@@ -470,10 +473,13 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="flex gap-3">
               <Button
                 variant="outline"
-                onClick={() => setStep(2)}
+                onClick={() => {
+                  clearCart();
+                  resetAndClose();
+                }}
                 className="flex-1"
               >
-                Quay lại
+                Thanh toán tiền mặt
               </Button>
               <Button onClick={handlePaymentConfirmation} className="flex-1">
                 Đã thanh toán
