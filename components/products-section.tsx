@@ -68,7 +68,7 @@ const ProductsSection = () => {
             href="/products"
             className="inline-flex items-center border border-white px-4 py-2 dark-text hover:bg-white hover:text-[#363737] transition-colors"
           >
-            See more
+            Xem thêm
           </Link>
         </div>
 
