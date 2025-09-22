@@ -206,7 +206,7 @@ ${itemsText}
 💳 **Nội dung CK:** ${orderData.name} ${orderData.orderId}
 
 ---
-⏰ Thời gian đặt: ${new Date().toLocaleString("vi-VN")}
+⏰ Thời gian đặt: ${new Date().toLocaleTimeString("vi-VN")}
     `.trim();
 
     // Send notification via multiple channels
@@ -247,7 +247,7 @@ export async function PATCH(request: NextRequest) {
 
 🆔 **Mã đơn hàng:** ${orderId}
 💳 **Trạng thái:** Đã thanh toán thành công
-⏰ **Thời gian xác nhận:** ${new Date().toLocaleString("vi-VN")}
+⏰ **Thời gian xác nhận:** ${new Date().toLocaleTimeString("vi-VN")}
 
 ---
 📝 Khách hàng đã xác nhận thanh toán qua QR Code, hãy kiểm tra tài khoản ${process.env.NEXT_PUBLIC_BANK_NAME} ${process.env.NEXT_PUBLIC_BANK_NUMBER}
