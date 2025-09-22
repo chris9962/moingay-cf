@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import type { Order, OrderItem } from "@/lib/database.types";
 import Pagination from "@/components/admin/pagination";
 import OrderDetailModal from "@/components/admin/order-detail-modal";
+import ConfirmModal from "@/components/admin/confirm-modal";
 import { useDebounce } from "@/hooks/use-debounce";
 import {
   Search,
@@ -38,6 +39,13 @@ export default function OrdersPage() {
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "warning" as "success" | "warning" | "danger",
+    onConfirm: () => {},
+  });
   const [pagination, setPagination] = useState<PaginationInfo>({
     currentPage: 1,
     totalPages: 1,
@@ -137,6 +145,40 @@ export default function OrdersPage() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedOrder(null);
+  };
+
+  const handleConfirmPayment = (orderId: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: "Xác nhận thanh toán",
+      message: `Bạn có chắc chắn muốn xác nhận đơn hàng #${orderId} đã được thanh toán?`,
+      type: "success",
+      onConfirm: () => updateOrderStatus(orderId, "paid"),
+    });
+  };
+
+  const handleConfirmCancel = (orderId: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: "Xác nhận hủy đơn hàng",
+      message: `Bạn có chắc chắn muốn hủy đơn hàng #${orderId}? Hành động này không thể hoàn tác.`,
+      type: "danger",
+      onConfirm: () => updateOrderStatus(orderId, "cancelled"),
+    });
+  };
+
+  const handleConfirmDelivery = (orderId: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: "Xác nhận giao hàng",
+      message: `Bạn có chắc chắn muốn xác nhận đơn hàng #${orderId} đã được giao thành công?`,
+      type: "success",
+      onConfirm: () => updateOrderStatus(orderId, "delivered"),
+    });
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmModal((prev) => ({ ...prev, isOpen: false }));
   };
 
   // Orders are already filtered by the API
@@ -408,17 +450,19 @@ export default function OrdersPage() {
                         {order.status === "pending" && (
                           <>
                             <button
-                              onClick={() =>
-                                updateOrderStatus(order.order_id, "paid")
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleConfirmPayment(order.order_id);
+                              }}
                               className="text-green-600 hover:text-green-900 text-xs"
                             >
                               ✓ Thanh toán
                             </button>
                             <button
-                              onClick={() =>
-                                updateOrderStatus(order.order_id, "cancelled")
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleConfirmCancel(order.order_id);
+                              }}
                               className="text-red-600 hover:text-red-900 text-xs"
                             >
                               ✗ Hủy
@@ -427,9 +471,10 @@ export default function OrdersPage() {
                         )}
                         {order.status === "paid" && (
                           <button
-                            onClick={() =>
-                              updateOrderStatus(order.order_id, "delivered")
-                            }
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleConfirmDelivery(order.order_id);
+                            }}
                             className="text-blue-600 hover:text-blue-900 text-xs"
                           >
                             🚚 Giao hàng
@@ -471,6 +516,16 @@ export default function OrdersPage() {
         order={selectedOrder}
         isOpen={isModalOpen}
         onClose={handleCloseModal}
+      />
+
+      {/* Confirm Modal */}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={closeConfirmModal}
+        onConfirm={confirmModal.onConfirm}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        type={confirmModal.type}
       />
     </div>
   );
