@@ -106,9 +106,29 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
     }
   };
 
-  const handlePaymentConfirmation = () => {
-    clearCart();
-    setStep(4); // Go to success step
+  const handlePaymentConfirmation = async () => {
+    try {
+      // Call API to confirm payment
+      const response = await fetch("/api/orders", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+        }),
+      });
+
+      if (response.ok) {
+        clearCart();
+        setStep(4); // Go to success step
+      } else {
+        alert("Có lỗi xảy ra khi xác nhận thanh toán. Vui lòng thử lại.");
+      }
+    } catch (error) {
+      console.error("Payment confirmation error:", error);
+      alert("Có lỗi xảy ra khi xác nhận thanh toán. Vui lòng thử lại.");
+    }
   };
 
   const resetAndClose = () => {
@@ -377,7 +397,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="flex justify-center mb-6">
               <div className="bg-white p-4 rounded-lg shadow-lg border">
                 <img
-                  src={`https://img.vietqr.io/image/TCB-3333333558-compact2.png?amount=${getTotalPrice()}&addInfo=${encodeURIComponent(
+                  src={`https://img.vietqr.io/image/${process.env.NEXT_PUBLIC_BANK_NAME}-${process.env.NEXT_PUBLIC_BANK_NUMBER}-compact2.png?amount=${getTotalPrice()}&addInfo=${encodeURIComponent(
                     `${userForm.name} ${orderId}`
                   )}`}
                   alt="QR Code thanh toán"
@@ -390,14 +410,22 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
             <div className="bg-gray-50 p-4 rounded-lg space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Ngân hàng:</span>
-                <span className="font-semibold">Techcombank (TCB)</span>
+                <span className="font-semibold">
+                  {process.env.NEXT_PUBLIC_BANK_NAME}
+                </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Số tài khoản:</span>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold price-text">3333333558</span>
+                  <span className="font-semibold price-text">
+                    {process.env.NEXT_PUBLIC_BANK_NUMBER}
+                  </span>
                   <button
-                    onClick={() => navigator.clipboard.writeText("3333333558")}
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        process.env.NEXT_PUBLIC_BANK_NUMBER || ""
+                      )
+                    }
                     className="text-primary hover:text-primary/80"
                   >
                     <Copy size={16} />
