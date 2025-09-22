@@ -94,6 +94,7 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       });
 
       if (response.ok) {
+        clearCart(); // Clear cart immediately after successful order
         setStep(3); // Go to payment step
       } else {
         alert("Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại.");
@@ -120,7 +121,6 @@ export default function OrderModal({ isOpen, onClose }: OrderModalProps) {
       });
 
       if (response.ok) {
-        clearCart();
         setStep(4); // Go to success step
       } else {
         alert("Có lỗi xảy ra khi xác nhận thanh toán. Vui lòng thử lại.");
