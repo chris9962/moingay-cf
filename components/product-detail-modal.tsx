@@ -121,7 +121,7 @@ const ProductDetailModal = ({
                   </div>
 
                   <div
-                    className="prose max-w-none"
+                    className="prose max-w-none whitespace-pre-wrap"
                     dangerouslySetInnerHTML={{
                       __html: product.description || "",
                     }}
