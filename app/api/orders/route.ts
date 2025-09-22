@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
 
 interface CartItem {
   id: number;
@@ -16,6 +17,83 @@ interface OrderData {
   items: CartItem[];
   totalPrice: number;
   orderId: string;
+}
+
+// Save order to database
+async function saveOrderToDatabase(orderData: OrderData) {
+  try {
+    // Insert order
+    const { data: order, error: orderError } = await supabaseAdmin
+      .from("orders")
+      .insert({
+        order_id: orderData.orderId,
+        customer_name: orderData.name,
+        customer_phone1: orderData.phone1,
+        customer_phone2: orderData.phone2 || null,
+        customer_address: orderData.address,
+        total_price: orderData.totalPrice,
+        status: "pending",
+        payment_status: "unpaid",
+        delivery_type: "delivery",
+      })
+      .select()
+      .single();
+
+    if (orderError) {
+      console.error("Error saving order:", orderError);
+      return false;
+    }
+
+    // Insert order items
+    const orderItems = orderData.items.map((item) => ({
+      order_id: orderData.orderId,
+      product_id: item.id,
+      product_name: item.name,
+      product_price: item.price,
+      quantity: item.quantity,
+      item_note: item.note || null,
+    }));
+
+    const { error: itemsError } = await supabaseAdmin
+      .from("order_items")
+      .insert(orderItems);
+
+    if (itemsError) {
+      console.error("Error saving order items:", itemsError);
+      return false;
+    }
+
+    console.log("Order saved to database successfully:", orderData.orderId);
+    return true;
+  } catch (error) {
+    console.error("Error in saveOrderToDatabase:", error);
+    return false;
+  }
+}
+
+// Update payment status in database
+async function updatePaymentStatus(orderId: string) {
+  try {
+    const { error } = await supabaseAdmin
+      .from("orders")
+      .update({
+        payment_status: "paid",
+        status: "paid",
+        paid_at: new Date().toISOString(),
+      })
+      .eq("order_id", orderId);
+
+    if (error) {
+      console.error("Error updating payment status:", error);
+      return false;
+    }
+
+    console.log("Payment status updated successfully:", orderId);
+    return true;
+  } catch (error) {
+    console.error("Error in updatePaymentStatus:", error);
+    return false;
+  }
 }
 
 // Send order notification via multiple channels
@@ -218,11 +296,14 @@ ${itemsText}
     })}
     `.trim();
 
+    // Save order to database
+    const savedToDatabase = await saveOrderToDatabase(orderData);
+    if (!savedToDatabase) {
+      console.error("Failed to save order to database:", orderData.orderId);
+    }
+
     // Send notification via multiple channels
     await sendOrderNotification(orderMessage, orderData);
-
-    // You can also save to database here if needed
-    // await saveOrderToDatabase(orderData);
 
     return NextResponse.json(
       {
@@ -270,6 +351,12 @@ export async function PATCH(request: NextRequest) {
 ---
 📝 Khách hàng đã xác nhận thanh toán qua QR Code, hãy kiểm tra tài khoản ${process.env.NEXT_PUBLIC_BANK_NAME} ${process.env.NEXT_PUBLIC_BANK_NUMBER}
     `.trim();
+
+    // Update payment status in database
+    const updatedPayment = await updatePaymentStatus(orderId);
+    if (!updatedPayment) {
+      console.error("Failed to update payment status:", orderId);
+    }
 
     // Send payment confirmation notification
     await sendOrderNotification(paymentMessage, { orderId } as any);

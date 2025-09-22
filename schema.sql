@@ -27,6 +27,46 @@ CREATE TABLE product_categories (
     PRIMARY KEY (product_id, category_id)
 );
 
+-- Create orders table
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    order_id VARCHAR(255) UNIQUE NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    customer_phone1 VARCHAR(20) NOT NULL,
+    customer_phone2 VARCHAR(20),
+    customer_address TEXT NOT NULL,
+    total_price INTEGER NOT NULL,
+    status VARCHAR(50) CHECK (
+        status IN (
+            'pending',
+            'paid',
+            'delivered',
+            'cancelled'
+        )
+    ) DEFAULT 'pending',
+    payment_status VARCHAR(50) CHECK (
+        payment_status IN ('unpaid', 'paid', 'refunded')
+    ) DEFAULT 'unpaid',
+    delivery_type VARCHAR(50) DEFAULT 'delivery',
+    notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    paid_at TIMESTAMP WITH TIME ZONE,
+    delivered_at TIMESTAMP WITH TIME ZONE
+);
+
+-- Create order_items table for storing individual items in each order
+CREATE TABLE order_items (
+    id SERIAL PRIMARY KEY,
+    order_id VARCHAR(255) REFERENCES orders (order_id) ON DELETE CASCADE,
+    product_id INTEGER REFERENCES products (id) ON DELETE CASCADE,
+    product_name VARCHAR(255) NOT NULL,
+    product_price INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    item_note TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create function to update timestamp
 CREATE OR REPLACE FUNCTION update_modified_column()
 RETURNS TRIGGER AS $$
@@ -47,12 +87,21 @@ BEFORE UPDATE ON categories
 FOR EACH ROW
 EXECUTE FUNCTION update_modified_column();
 
+CREATE TRIGGER update_orders_modtime
+BEFORE UPDATE ON orders
+FOR EACH ROW
+EXECUTE FUNCTION update_modified_column();
+
 -- Create RLS policies
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE categories ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE product_categories ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for authenticated users (admin)
 CREATE POLICY "Allow full access to authenticated users" ON products FOR ALL USING (
@@ -64,6 +113,14 @@ CREATE POLICY "Allow full access to authenticated users" ON categories FOR ALL U
 );
 
 CREATE POLICY "Allow full access to authenticated users" ON product_categories FOR ALL USING (
+    auth.role () = 'authenticated'
+);
+
+CREATE POLICY "Allow full access to authenticated users" ON orders FOR ALL USING (
+    auth.role () = 'authenticated'
+);
+
+CREATE POLICY "Allow full access to authenticated users" ON order_items FOR ALL USING (
     auth.role () = 'authenticated'
 );
 
@@ -95,6 +152,22 @@ CREATE INDEX idx_products_price ON products (price);
 CREATE INDEX idx_product_categories_product_id ON product_categories (product_id);
 
 CREATE INDEX idx_product_categories_category_id ON product_categories (category_id);
+
+-- Create indexes for orders table
+CREATE INDEX idx_orders_order_id ON orders (order_id);
+
+CREATE INDEX idx_orders_status ON orders (status);
+
+CREATE INDEX idx_orders_payment_status ON orders (payment_status);
+
+CREATE INDEX idx_orders_created_at ON orders (created_at);
+
+CREATE INDEX idx_orders_customer_phone1 ON orders (customer_phone1);
+
+-- Create indexes for order_items table
+CREATE INDEX idx_order_items_order_id ON order_items (order_id);
+
+CREATE INDEX idx_order_items_product_id ON order_items (product_id);
 
 -- Create function to get random products by categories
 CREATE OR REPLACE FUNCTION get_random_products_by_categories(category_ids integer[])
