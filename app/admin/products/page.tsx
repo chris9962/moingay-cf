@@ -171,7 +171,7 @@ export default function ProductsPage() {
               key={product.id}
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
-              <div className="relative h-48">
+              <div className="relative aspect-square">
                 {product.image ? (
                   <Image
                     src={product.image || "/placeholder.svg"}
