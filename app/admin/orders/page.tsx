@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import type { Order, OrderItem } from "@/lib/database.types";
 import Pagination from "@/components/admin/pagination";
+import OrderDetailModal from "@/components/admin/order-detail-modal";
 import { useDebounce } from "@/hooks/use-debounce";
 import {
   Search,
@@ -33,6 +34,10 @@ export default function OrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [paymentFilter, setPaymentFilter] = useState<string>("all");
+  const [selectedOrder, setSelectedOrder] = useState<OrderWithItems | null>(
+    null
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [pagination, setPagination] = useState<PaginationInfo>({
     currentPage: 1,
     totalPages: 1,
@@ -122,6 +127,16 @@ export default function OrdersPage() {
     setStatusFilter("all");
     setPaymentFilter("all");
     setPagination((prev) => ({ ...prev, currentPage: 1 }));
+  };
+
+  const handleOrderClick = (order: OrderWithItems) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
   };
 
   // Orders are already filtered by the API
@@ -274,7 +289,7 @@ export default function OrdersPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Khách hàng
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 min-w-[200px] text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Sản phẩm
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -296,7 +311,11 @@ export default function OrdersPage() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-gray-50">
+                  <tr
+                    key={order.id}
+                    className="hover:bg-gray-50 cursor-pointer transition-colors"
+                    onClick={() => handleOrderClick(order)}
+                  >
                     {/* Order ID */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -446,6 +465,13 @@ export default function OrdersPage() {
           />
         )}
       </div>
+
+      {/* Order Detail Modal */}
+      <OrderDetailModal
+        order={selectedOrder}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

@@ -5,11 +5,13 @@ import { Phone, ShoppingCart } from "lucide-react";
 import Socials from "./socials";
 import OrderModal from "@/components/order-modal";
 import { useCartStore } from "@/lib/cart-store";
+import { usePathname } from "next/navigation";
 
 export default function SocialsWrapper() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const totalItems = useCartStore((state) => state.getTotalItems());
-
+  const pathname = usePathname();
+  if (pathname?.startsWith("/admin")) return null;
   return (
     <>
       <div className="fixed bottom-20 right-4 z-50 flex flex-col items-center space-y-2">
